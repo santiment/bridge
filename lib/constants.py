@@ -48,3 +48,6 @@ ETH_TRANSFERS_TABLE = os.getenv("ETH_TRANSFERS_TABLE", "eth_transfers")
 ############## ADDRESSES ##############
 
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
+
+############## CHAIN ##############
+ETHEREUM, BITCOIN = "ethereum", "bitcoin"

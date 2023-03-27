@@ -6,7 +6,8 @@ import itertools
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY
+from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
+from lib.wbtc.constants import WBTC_FACTORY, WBTC_TOKEN
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -47,18 +48,27 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    user = None
-    token_in, token_out = None, None
-    amount_in, amount_out = None, None
-    chain_in, chain_out = None, None
+    user = args_dict["requester"]
+    amount = int(args_dict["amount"])
+    amount_in, amount_out = amount, amount
+    
+    if action == "mint":
+        chain_in, chain_out = BITCOIN, ETHEREUM
+        token_in, token_out = BITCOIN, WBTC_TOKEN
 
+    elif action == "burn":
+        chain_in, chain_out = ETHEREUM, BITCOIN
+        token_in, token_out = WBTC_TOKEN, BITCOIN
+    else:
+        raise RuntimeError("The event contains an invalid action")
+    
     event_dict = {
         "tx_hash": event["tx_hash"],
         "log_index": event["log_index"],
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "pool_address": event["pool_address"],
+        "contract_addr": WBTC_FACTORY,
         "token_in": token_in,
         "token_out": token_out,
         "amount_in": amount_in,

@@ -1,6 +1,4 @@
 import logging
-from datetime import datetime
-from lib.utils import log_iter
 from lib.Exporter import Exporter
 from lib.wbtc.query import build_events_query
 from lib.wbtc.process import process

@@ -2,7 +2,6 @@
 Provide process function that could keep the required data in CH table format
 """
 
-import itertools
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
@@ -73,12 +72,12 @@ def build_event(event):
         "token_out": token_out,
         "amount_in": amount_in,
         "amount_out": amount_out,
-        "project_name": args_dict["project_name"],
+        "project_name": event["project_name"],
         "user": user,
         "args": args_dict,
         "computed_at": None
     }
-    yield event_dict
+    return event_dict
 
 def generate_structured_records(events):
     for event in events:

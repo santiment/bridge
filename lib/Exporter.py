@@ -1,7 +1,7 @@
-import logging
-from datetime import datetime
+"""
+The Exporter class, providing general settings and interface for every exporter
+"""
 from clickhouse_driver import Client
-from lib.utils import log_iter
 from lib.constants import (
     CH_HOST, CH_PORT,
     START_DT, END_DT,
@@ -20,8 +20,8 @@ class Exporter:
         self.dry_run = DRY_RUN
         self.insert_query = f"""
             INSERT INTO {BRIDGE_TRANSACTIONS_TABLE}
-                (tx_hash, log_index, dt, chain, pool_address, on_behalf_of, action, token_in, 
-                token_out, amount_in, amount_out, project_name, user, computed_at)
+                (tx_hash, log_index, dt, chain_in, chain_out, contract_addr, token_in, 
+                token_out, amount_in, amount_out, project_name, user, args, computed_at)
             VALUES
         """
 

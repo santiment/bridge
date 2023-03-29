@@ -36,6 +36,7 @@ END_DT = parse_iso_time(os.getenv("END_DT", end_default))
 LOG_FORMAT = os.getenv("LOG_FORMAT", '{"level": "%(levelname)s", "time": "%(asctime)s", "message": "%(message)s"}')
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+LOG_FREQUENCY = 100
 
 ############## TABLES ##############
 

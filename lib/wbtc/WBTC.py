@@ -1,3 +1,4 @@
+"""WBTC Exporter Class"""
 import logging
 from lib.Exporter import Exporter
 from lib.wbtc.query import build_events_query
@@ -5,6 +6,7 @@ from lib.wbtc.process import process
 
 class WBTC_Exporter(Exporter):
     def __init__(self):
+        Exporter.__init__(self)
         self.name = "wbtc"
 
     def read_records(self):
@@ -21,10 +23,11 @@ class WBTC_Exporter(Exporter):
             self.write_ch_client.execute(self.insert_query, records)
             return
         # If dry run mode, do nothing
-        for _ in records:
-            pass
+        for r in records:
+            print (r)
 
     def start_logging(self):
+        logging.getLogger("clilogger")
         logging.info("Running %s exporter", self.name)
         logging.info("START_DT=%s", self.start_dt)
         logging.info("END_DT=%s", self.end_dt)

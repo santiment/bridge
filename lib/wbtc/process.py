@@ -50,7 +50,7 @@ def build_event(event):
     user = args_dict["requester"]
     amount = int(args_dict["amount"])
     amount_in, amount_out = amount, amount
-    
+
     if action == "mint":
         chain_in, chain_out = BITCOIN, ETHEREUM
         token_in, token_out = BITCOIN, WBTC_TOKEN
@@ -60,7 +60,7 @@ def build_event(event):
         token_in, token_out = WBTC_TOKEN, BITCOIN
     else:
         raise RuntimeError("The event contains an invalid action")
-    
+
     event_dict = {
         "tx_hash": event["tx_hash"],
         "log_index": event["log_index"],
@@ -80,5 +80,6 @@ def build_event(event):
     return event_dict
 
 def generate_structured_records(events):
+    """Generator for structred events"""
     for event in events:
         yield build_event(event)

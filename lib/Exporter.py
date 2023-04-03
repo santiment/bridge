@@ -11,6 +11,11 @@ from lib.constants import (
 )
 
 class Exporter:
+    """
+    The exporter class, every exporter should implement its own functions:
+    read_records, insert_records and run.
+    """
+    # pylint: disable=unnecessary-pass
     def __init__(self):
         read_settings = {"max_block_size": READ_CHUNK_SIZE}
         write_settings = {"insert_block": WRITE_CHUNK_SIZE}
@@ -28,13 +33,13 @@ class Exporter:
         self.name = None
 
     def read_records(self):
+        """Read data from clickhouse"""
         pass
 
     def run(self):
+        """The main function to run the exporter"""
         pass
 
-    def process(self):
-        pass
-
-    def insert_records(self):
+    def insert_records(self, records):
+        """Write the processed data to clickhouse"""
         pass

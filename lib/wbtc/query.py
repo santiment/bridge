@@ -2,7 +2,6 @@
 Provide functions for clickhouse query in wbtc exporter
 """
 
-import json
 from lib.constants import ETH_EVENTS_TABLE
 from lib.wbtc.constants import (
     WBTC_FACTORY,
@@ -40,4 +39,3 @@ def build_events_query(start_dt, end_dt):
         log_index DESC
     """
     return query_string
-

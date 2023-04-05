@@ -1,0 +1,44 @@
+#!/bin/sh
+# You need to have an environment variable called OPENAI_API_KEY for this to work
+
+# Read from stdin and convert to a JSON string
+JSON_STDIN=$(cat | jq -Rs )
+#echo ${JSON_STDIN}
+
+# Convert argument to a JSON string
+JSON_ARGS=$(echo "$@" | jq -Rs )
+#echo ${JSON_ARGS}
+
+PROMPT=$(cat <<EOF
+[
+{
+  "role": "system",
+  "content": ${JSON_ARGS}
+},
+{
+  "role": "user",
+  "content": ${JSON_STDIN}
+}
+
+]
+EOF
+      )
+
+JSON_DATA=$(cat <<EOF
+{
+        "model": "gpt-4",
+        "messages": ${PROMPT},
+        "temperature": 0.2
+}
+EOF
+         )
+
+RESULT=$(curl https://api.openai.com/v1/chat/completions \
+           -H "Content-Type: application/json" \
+           -H "Authorization: Bearer $OPENAI_API_KEY" \
+           -d @- <<< "$JSON_DATA"
+      )
+
+#echo $RESULT
+
+jq -r '.choices[0].message.content' <<< "$RESULT"

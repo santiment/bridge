@@ -5,9 +5,12 @@ from lib.wbtc.query import build_events_query
 from lib.wbtc.process import process
 
 class WBTCExporter(Exporter):
-    """WBTC Exporter Class"""
+    """
+    WBTC Exporter Class, used to export wbtc-btc bridge transactions
+    between ethereum and btc.
+    """
     def __init__(self):
-        Exporter.__init__(self)
+        super().__init__()
         self.name = "wbtc"
 
     def read_records(self):

@@ -13,7 +13,7 @@ def process(project_name, records):
     event_dicts = map_events_to_dictionary(project_name, records)
     processed = generate_structured_records(event_dicts)
     processed = add_computed_at(processed, datetime.now())
-    logged_events = log_iter(processed, LOG_FREQUENCY)
+    logged_events = log_iter(processed, LOG_FREQUENCY, stop_early=False)
 
     return logged_events
 

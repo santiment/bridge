@@ -33,7 +33,7 @@ def build_events_query(start_dt, end_dt):
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
         AND contract_addr = '{WBTC_FACTORY}'
-        AND signature = '{MINT_CONFIRMED_SIG}'
+        AND signature IN ['{MINT_CONFIRMED_SIG}', '{BURNED_CONFIRMED_SIG}']
     ORDER BY
         dt DESC,
         log_index DESC

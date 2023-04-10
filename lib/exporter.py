@@ -1,6 +1,7 @@
 """
 The Exporter class, providing general settings and interface for every exporter
 """
+import logging
 from clickhouse_driver import Client
 from lib.constants import (
     CH_HOST, CH_PORT,
@@ -43,3 +44,11 @@ class Exporter:
     def insert_records(self, records):
         """Write the processed data to clickhouse"""
         pass
+    
+    def start_logging(self):
+        """Start logging in the exporter"""
+        logging.getLogger("clilogger")
+        logging.info("Running %s exporter", self.name)
+        logging.info("START_DT=%s", self.start_dt)
+        logging.info("END_DT=%s", self.end_dt)
+    

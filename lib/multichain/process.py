@@ -6,7 +6,6 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
-from lib.wbtc.constants import WBTC_FACTORY, WBTC_TOKEN
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -28,7 +27,7 @@ def map_events_to_dictionary(project_name, events):
 
         return {
             "tx_hash": event[0],
-            "pool_address": event[1],
+            "contract_addr": event[1],
             "dt": event[3],
             "log_index": event[4],
             "action": event[5],
@@ -47,15 +46,16 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    user = args_dict["requester"]
     amount = int(args_dict["amount"])
     amount_in, amount_out = amount, amount
 
-    if action == "mint":
+    if action == "swap_in":
+        user = args_dict["to"]
         chain_in, chain_out = BITCOIN, ETHEREUM
         token_in, token_out = BITCOIN, WBTC_TOKEN
 
-    elif action == "burn":
+    elif action == "swap_out":
+        user = args_dict["from"]
         chain_in, chain_out = ETHEREUM, BITCOIN
         token_in, token_out = WBTC_TOKEN, BITCOIN
     else:
@@ -67,7 +67,7 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": WBTC_FACTORY,
+        "contract_addr": event["contract_addr"],
         "token_in": token_in,
         "token_out": token_out,
         "amount_in": amount_in,

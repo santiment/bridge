@@ -74,7 +74,7 @@ def build_event(event):
         "amount_out": amount_out,
         "project_name": event["project_name"],
         "user": user,
-        "args": args_dict,
+        "args": json.dumps(args_dict),
         "computed_at": None
     }
     return event_dict

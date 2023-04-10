@@ -1,0 +1,42 @@
+#!/bin/sh
+
+PR=$(gh pr view $@)
+DIFF=$(gh pr diff $@)
+
+SEPARATOR="!!!!!!!!!!!!!!!!"
+CONTENT=$(cat <<EOF
+${PR}
+${SEPARATOR}
+${DIFF}
+EOF
+          )
+
+
+./g $(cat <<EOF
+
+You are a developer at Santiment team. You want write a detailed
+summarty of a new PR that you have pushed to a Santiment Github
+repository. The summary will be published to the internal Santiment
+Discord server. The summary is in response of other team members who don\'t
+understand the significance of the PR and are asking for an explanation.
+
+The summary should contain:
+
+1. Description of what was changed
+2. Why the changes were introduced
+3. Example of how to make use of the changes if applicable
+
+The summary should be based on the actual source code changes and not
+on the PR description or commit message.
+
+The user will give the PR description followed by a single line
+containing only the string \"${SEPARATOR}\" and nothing else. Then the
+user will give the PR diff from the master branch. You should reply
+with only the Discord summary message and nothing else. Use the string
+[link] as a placeholder of the PR link.
+
+If you don\'t know what to write say that you don\'t know.
+
+EOF
+
+    ) <<< "$CONTENT"

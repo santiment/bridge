@@ -1,0 +1,50 @@
+#!/bin/sh
+# gpt_commit: Summarize git staged changes using GPT-4 and start git commit process
+
+# Get staged changes
+STAGED_CHANGES=$(git diff --staged  --unified=10)
+
+
+# Check if there are any staged changes
+if [ -z "$STAGED_CHANGES" ]; then
+  echo "No staged changes found. Please stage changes before running gpt_commit."
+  exit 1
+fi
+
+# Summarize staged changes using GPT-4
+# Commit message rules taken from here: https://cbea.ms/git-commit/
+SUMMARY=$(g $(cat <<EOF
+You are a developer at Santiment team. Write a commit message of the git staged changes which will be given to you as a diff by the user.
+
+The commit message structure should follow the seven rules of great commit messages
+
+1. Separate subject from body with a blank line
+2. Limit the subject line to 50 characters
+3. Capitalize the subject line
+4. Do not end the subject line with a period
+5. Use the imperative mood in the subject line
+6. Wrap the body at 72 characters
+7. Use the body to explain what and why vs. how
+
+If you don\'t know what to write say that you don\'t know.
+EOF
+              ) <<< "$STAGED_CHANGES"
+       )
+
+# Check if summary is empty
+if [ -z "$SUMMARY" ]; then
+  echo "Error: GPT-4 summary is empty. Please try again."
+  exit 1
+fi
+
+# Create a temporary file for the commit message
+TEMP_FILE=$(mktemp)
+
+# Write the summary to the temporary file
+echo "$SUMMARY" > "$TEMP_FILE"
+
+# Start the git commit process with the prepared summary
+git commit -e -F "$TEMP_FILE"
+
+# Remove the temporary file
+rm "$TEMP_FILE"

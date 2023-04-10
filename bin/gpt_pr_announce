@@ -1,0 +1,32 @@
+#!/bin/sh
+
+PR=$(gh pr view $@)
+DIFF=$(gh pr diff $@)
+
+SEPARATOR="**********"
+CONTENT=$(cat <<EOF
+${PR}
+${SEPARATOR}
+${DIFF}
+EOF
+          )
+
+
+g $(cat <<EOF
+
+You are a developer at Santiment team. You want to announce a new PR
+that you have pushed to a Santiment Github repository. The
+announcement will be published to the internal Santiment server. It
+should be terse but it should motivate developers to review the PR.
+
+The user will give the PR description followed by a single line
+containing \"${SEPARATOR}\" and then the PR diff from the master
+branch. You should reply with only the Discord announcement message
+and nothing else. Use the string [link] as a placeholder of the PR
+link.
+
+If you don\'t know what to write say that you don\'t know.
+
+EOF
+
+    ) <<< "$CONTENT"

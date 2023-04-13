@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
+from lib.multichain.constants import chain_info
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -37,6 +38,12 @@ def map_events_to_dictionary(project_name, events):
 
     return map(map_args, events)
 
+def get_chain(chain_id):
+    """Get the chain name from chain id"""
+    try:
+        return chain_info[chain_id]["name"].lower()
+    except:
+        return chain_id
 
 def build_event(event):
     """
@@ -50,13 +57,15 @@ def build_event(event):
     amount_in, amount_out = amount, amount
 
     if action == "swap_in":
+        chain_id = args_dict["fromChainID"]
         user = args_dict["to"]
-        chain_in, chain_out = BITCOIN, ETHEREUM
+        chain_in, chain_out = get_chain(chain_id), ETHEREUM
         token_in, token_out = BITCOIN, WBTC_TOKEN
 
     elif action == "swap_out":
+        chain_id = args_dict["toChainID"]
         user = args_dict["from"]
-        chain_in, chain_out = ETHEREUM, BITCOIN
+        chain_in, chain_out = ETHEREUM, get_chain(chain_id)
         token_in, token_out = WBTC_TOKEN, BITCOIN
     else:
         raise RuntimeError("The event contains an invalid action")

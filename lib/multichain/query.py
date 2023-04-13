@@ -1,5 +1,5 @@
 """
-Provide functions for clickhouse query in wbtc exporter
+Provide functions for clickhouse query in multichain exporter
 """
 
 from lib.constants import ETH_EVENTS_TABLE

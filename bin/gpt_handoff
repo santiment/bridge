@@ -1,0 +1,30 @@
+#!/bin/sh
+
+PR=$(gh repo view $@)
+
+SEPARATOR="!!!!!!!!!!!!!!!!"
+CONTENT=$(cat <<EOF
+${PR}
+EOF
+          )
+
+
+./g $(cat <<EOF
+
+You are a developer at Santiment team. You want write a detailed
+handoff of the master branch that you have pushed to a Santiment Github
+repository. The handoff will be published to the internal Santiment
+Discord server. The handoff is in response of other team members who don\'t
+understand the significance of the PR and are asking for an explanation.
+
+The handoff should contain:
+
+1. Description of this repo
+2. How we can use this repo from business side
+3. Provide some sample queries and utilities for our new table.
+
+If you don\'t know what to write say that you don\'t know.
+
+EOF
+
+    ) <<< "$CONTENT"

@@ -5,7 +5,7 @@ Provide process function that could keep the required data in CH table format
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
+from lib.constants import LOG_FREQUENCY, ETHEREUM
 from lib.multichain.constants import chain_info
 
 def process(project_name, records):
@@ -34,6 +34,7 @@ def map_events_to_dictionary(project_name, events):
             "action": event[5],
             "project_name": project_name,
             "args": args_dict,
+            "transfer_contract": event[6],
         }
 
     return map(map_args, events)
@@ -60,13 +61,13 @@ def build_event(event):
         chain_id = args_dict["fromChainID"]
         user = args_dict["to"]
         chain_in, chain_out = get_chain(chain_id), ETHEREUM
-        token_in, token_out = BITCOIN, WBTC_TOKEN
+        token_in, token_out = args_dict["token"], event["transfer_contract"]
 
     elif action == "swap_out":
         chain_id = args_dict["toChainID"]
         user = args_dict["from"]
         chain_in, chain_out = ETHEREUM, get_chain(chain_id)
-        token_in, token_out = WBTC_TOKEN, BITCOIN
+        token_in, token_out = event["transfer_contract"], args_dict["token"]
     else:
         raise RuntimeError("The event contains an invalid action")
 

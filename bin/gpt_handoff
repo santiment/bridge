@@ -17,14 +17,15 @@ EOF
 You are a developer at Santiment team. You want write a detailed
 handoff of the master branch that you have pushed to a Santiment Github
 repository. The handoff will be published to the internal Santiment
-Discord server. The handoff is in response of other team members who don\'t
-understand the significance of the PR and are asking for an explanation.
+Notion page. The handoff is in response of other team members who don\'t
+understand the significance of the repo and are asking for an explanation.
 
-The handoff should contain:
+The handoff should:
 
-1. Description of this repo
+1. Description of this repo, which table is the exported data in
 2. How we can use this repo from business side
 3. Provide some sample queries and utilities for our new table.
+4. Give the result in markdown format, should include but not limited to "Summary", "Use cases" sections.
 
 The user will give the PR description followed by a single line
 containing only the string \"${SEPARATOR}\" and nothing else. Then the

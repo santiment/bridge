@@ -8,7 +8,7 @@ from lib.multichain.constants import (
     SWAP_OUT_SIG1,
     SWAP_OUT_SIG2
 )
-
+from lib.constants import ERC20_TRANSFERS_TABLE
 
 def build_events_query(start_dt, end_dt):
     """
@@ -17,6 +17,17 @@ def build_events_query(start_dt, end_dt):
     """
 
     query_string = f"""
+    WITH transfers AS (
+        SELECT
+            transactionHash,
+            contract,
+            logIndex
+        FROM {ERC20_TRANSFERS_TABLE}
+        WHERE
+            dt >= toDateTime('{start_dt}')
+            AND dt < toDateTime('{end_dt}')
+        ORDER BY dt, logIndex
+    )
     SELECT 
         tx_hash,
         contract_addr,
@@ -26,9 +37,16 @@ def build_events_query(start_dt, end_dt):
         CASE 
             WHEN signature = '{SWAP_IN_SIG}' THEN 'swap_in'
             WHEN signature IN ['{SWAP_OUT_SIG1}','{SWAP_OUT_SIG2}'] THEN 'swap_out'
-        END as action
+        END as action,
+        CASE 
+            WHEN action = 'swap_out' THEN transfers.contract
+            WHEN action = 'swap_in' THEN LAST_VALUE(transfers.contract) 
+                OVER (PARTITION BY transfers.transactionHash ORDER BY transfers.logIndex)
+        END as transfer_contract    
     FROM
-        {ETH_EVENTS_TABLE}
+        {ETH_EVENTS_TABLE} AS e
+        INNER JOIN transfers
+        ON e.tx_hash = transfers.transactionHash
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')

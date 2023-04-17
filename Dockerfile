@@ -32,4 +32,4 @@ ENV PYTHONUNBUFFERED TRUE
 
 WORKDIR /app
 
-CMD ["python", "cli.py", "aave_v2"]
+CMD ["python", "cli.py", "wbtc"]

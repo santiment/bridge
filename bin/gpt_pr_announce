@@ -12,7 +12,7 @@ EOF
           )
 
 
-g $(cat <<EOF
+./g $(cat <<EOF
 
 You are a developer at Santiment team. You want to announce a new PR
 that you have pushed to a Santiment Github repository. The

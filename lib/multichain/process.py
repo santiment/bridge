@@ -43,8 +43,7 @@ def get_chain(chain_id):
     """Get the chain name from chain id"""
     try:
         return chain_info[chain_id]["name"].lower()
-    # pylint: disable=broad-except
-    except Exception:
+    except KeyError:
         return chain_id
 
 def build_event(event):

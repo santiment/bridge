@@ -51,7 +51,7 @@ class WBTCExporter(Exporter):
         self.start_logging()
         records = self.read_records()
         if not records:
-            logging.info("No records found!")
+            logging.info("No records found for %s", self.name)
             return
         processed_records = process(project_name=self.name, records=records)
         self.insert_records(processed_records)

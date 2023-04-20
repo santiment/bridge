@@ -1,0 +1,354 @@
+{
+    "1": {
+        "name": "Ethereum",
+        "symbol": "ETH"
+    },
+    "10": {
+        "name": "Optimism",
+        "symbol": "OETH"
+    },
+    "24": {
+        "name": "KardiaChain",
+        "symbol": "KAI"
+    },
+    "25": {
+        "name": "Cronos",
+        "symbol": "CRO"
+    },
+    "30": {
+        "name": "Rootstock RSK",
+        "symbol": "RBTC"
+    },
+    "40": {
+        "name": "Telos",
+        "symbol": "TLOS"
+    },
+    "56": {
+        "name": "BNB CHAIN",
+        "symbol": "BNB"
+    },
+    "57": {
+        "name": "Syscoin NEVM",
+        "symbol": "SYS"
+    },
+    "58": {
+        "name": "Ontology",
+        "symbol": "ONT"
+    },
+    "61": {
+        "name": "Ethereum Classic",
+        "symbol": "ETC"
+    },
+    "66": {
+        "name": "OKC",
+        "symbol": "OKT"
+    },
+    "70": {
+        "name": "HSC",
+        "symbol": "HOO"
+    },
+    "86": {
+        "name": "GateChain",
+        "symbol": "GT"
+    },
+    "88": {
+        "name": "TomoChain",
+        "symbol": "TOMO"
+    },
+    "100": {
+        "name": "Gnosis",
+        "symbol": "GNO"
+    },
+    "106": {
+        "name": "Velas",
+        "symbol": "VLX"
+    },
+    "108": {
+        "name": "ThunderCore",
+        "symbol": "TT"
+    },
+    "122": {
+        "name": "Fuse",
+        "symbol": "FUSE"
+    },
+    "128": {
+        "name": "Huobi",
+        "symbol": "HT"
+    },
+    "137": {
+        "name": "Polygon",
+        "symbol": "MATIC"
+    },
+    "199": {
+        "name": "BitTorrent",
+        "symbol": "BTT"
+    },
+    "250": {
+        "name": "Fantom",
+        "symbol": "FTM"
+    },
+    "269": {
+        "name": "High Performance Blockchain",
+        "symbol": "HPB"
+    },
+    "288": {
+        "name": "Boba Network",
+        "symbol": "BOBA"
+    },
+    "311": {
+        "name": "Omax",
+        "symbol": "OMAX"
+    },
+    "321": {
+        "name": "KCC",
+        "symbol": "KCS"
+    },
+    "324": {
+        "name": "zkSync Era",
+        "symbol": "ETH"
+    },
+    "336": {
+        "name": "Shiden Network",
+        "symbol": "SDN"
+    },
+    "592": {
+        "name": "Astar Network",
+        "symbol": "ASTR"
+    },
+    "877": {
+        "name": "Dexit Network",
+        "symbol": "DXT"
+    },
+    "1024": {
+        "name": "CLV Parachain",
+        "symbol": "CLV"
+    },
+    "1030": {
+        "name": "Conflux Network",
+        "symbol": "CFX"
+    },
+    "1088": {
+        "name": "Metis",
+        "symbol": "METIS"
+    },
+    "1101": {
+        "name": "Polygon zkEVM",
+        "symbol": "Ether"
+    },
+    "1111": {
+        "name": "WEMIX3.0",
+        "symbol": "WEMIX"
+    },
+    "1234": {
+        "name": "Step Network",
+        "symbol": "FITFI"
+    },
+    "1284": {
+        "name": "Moonbeam",
+        "symbol": "GLMR"
+    },
+    "1285": {
+        "name": "Moonriver",
+        "symbol": "MOVR"
+    },
+    "1294": {
+        "name": "Boba Beam",
+        "symbol": "Boba"
+    },
+    "1818": {
+        "name": "Cube Chain",
+        "symbol": "CUBE"
+    },
+    "1975": {
+        "name": "ONUS",
+        "symbol": "ONUS"
+    },
+    "1994": {
+        "name": "Ekta",
+        "symbol": "EKTA"
+    },
+    "2000": {
+        "name": "Dogechain",
+        "symbol": "DOGE"
+    },
+    "2001": {
+        "name": "Milkomeda (Cardano)",
+        "symbol": "milkADA"
+    },
+    "2002": {
+        "name": "Milkomeda (Algorand)",
+        "symbol": "ALGO"
+    },
+    "2020": {
+        "name": "Public Mint",
+        "symbol": "MINT"
+    },
+    "2025": {
+        "name": "Rangers",
+        "symbol": "RPG"
+    },
+    "2109": {
+        "name": "Exosama",
+        "symbol": "SAMA"
+    },
+    "2152": {
+        "name": "Findora",
+        "symbol": "FRA"
+    },
+    "2222": {
+        "name": "Kava",
+        "symbol": "KAVA"
+    },
+    "2611": {
+        "name": "Redlight",
+        "symbol": "REDLC"
+    },
+    "4689": {
+        "name": "IoTeX",
+        "symbol": "IOTX"
+    },
+    "7070": {
+        "name": "Planq",
+        "symbol": "PLQ"
+    },
+    "7363": {
+        "name": "Dynochain",
+        "symbol": "DND"
+    },
+    "7700": {
+        "name": "Canto",
+        "symbol": "CANTO"
+    },
+    "8217": {
+        "name": "Klaytn",
+        "symbol": "KLAY"
+    },
+    "8888": {
+        "name": "XANA",
+        "symbol": "XETA"
+    },
+    "9001": {
+        "name": "Evmos",
+        "symbol": "EVMOS"
+    },
+    "10000": {
+        "name": "Smart Bitcoin Cash",
+        "symbol": "BCH"
+    },
+    "10001": {
+        "name": "EthereumPoW",
+        "symbol": "ETHW"
+    },
+    "24734": {
+        "name": "MintMe.com Coin",
+        "symbol": "MINTME"
+    },
+    "32520": {
+        "name": "Bitgert",
+        "symbol": "BRISE"
+    },
+    "32659": {
+        "name": "Fusion",
+        "symbol": "FSN"
+    },
+    "42161": {
+        "name": "Arbitrum",
+        "symbol": "ETH"
+    },
+    "42170": {
+        "name": "Arbitrum Nova",
+        "symbol": "ETH"
+    },
+    "42220": {
+        "name": "Celo",
+        "symbol": "CELO"
+    },
+    "42262": {
+        "name": "Oasis Network",
+        "symbol": "ROSE"
+    },
+    "43114": {
+        "name": "Avalanche",
+        "symbol": "AVAX"
+    },
+    "47805": {
+        "name": "REI",
+        "symbol": "REI"
+    },
+    "53935": {
+        "name": "DeFi Kingdoms",
+        "symbol": "JEWEL"
+    },
+    "71402": {
+        "name": "Godwoken",
+        "symbol": "CKB"
+    },
+    "256256": {
+        "name": "Caduceus",
+        "symbol": "CMP"
+    },
+    "420420": {
+        "name": "Kekchain",
+        "symbol": "KEK"
+    },
+    "1313161554": {
+        "name": "Aurora",
+        "symbol": "ETH"
+    },
+    "1666600000": {
+        "name": "Harmony",
+        "symbol": "ONE"
+    },
+    "BTC": {
+        "name": "Bitcoin",
+        "symbol": "BTC"
+    },
+    "LTC": {
+        "name": "Litecoin",
+        "symbol": "LTC"
+    },
+    "BLOCK": {
+        "name": "Blocknet",
+        "symbol": "BLOCK"
+    },
+    "COLX": {
+        "name": "ColossusXT",
+        "symbol": "COLX"
+    },
+    "TERRA": {
+        "name": "Terra classic",
+        "symbol": "LUNC"
+    },
+    "XRP": {
+        "name": "XRP Ledger",
+        "symbol": "XRP"
+    },
+    "NAS": {
+        "name": "Nebulas",
+        "symbol": "NAS"
+    },
+    "NEAR": {
+        "name": "Near",
+        "symbol": "NEAR"
+    },
+    "APT": {
+        "name": "Aptos ",
+        "symbol": "APT"
+    },
+    "ADA": {
+        "name": "Cardano",
+        "symbol": "ADA"
+    },
+    "SOL": {
+        "name": "Solana",
+        "symbol": "SOL"
+    },
+    "REEF": {
+        "name": "Reef ",
+        "symbol": "REEF"
+    },
+    "ATOM_DCORE": {
+        "name": "Coreum",
+        "symbol": "CORE"
+    }
+}

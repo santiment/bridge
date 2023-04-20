@@ -1,23 +1,23 @@
-"""WBTC Exporter Class"""
+"""Multichain exporter class"""
 import logging
 from lib.exporter import Exporter
-from lib.wbtc.query import build_events_query
-from lib.wbtc.process import process
+from lib.multichain.query import build_events_query
+from lib.multichain.process import process
 
-class WBTCExporter(Exporter):
+class MultichainExporter(Exporter):
     """
-    WBTC Exporter Class, used to export wbtc-btc bridge transactions
-    between ethereum and btc.
+    Multichain Exporter Class, used to export transactions
+    between multiple blockchains in a Multichain network.
     """
     def __init__(self):
         super().__init__()
-        self.name = "wbtc"
+        self.name = "multichain"
 
     def read_records(self):
         """
-        Read data from clickhouse
+        Read data from Multichain node
 
-        Return: records after clickhouse client execution
+        Return: records after executing the query on the Multichain node
         """
         read_query = build_events_query(self.start_dt, self.end_dt)
         records = self.read_ch_client.execute(read_query)
@@ -26,7 +26,7 @@ class WBTCExporter(Exporter):
 
     def insert_records(self, records):
         """
-        Write the processed data to clickhouse
+        Write the processed data to a database
 
         param:
             records: Processed records generator from process function
@@ -37,17 +37,10 @@ class WBTCExporter(Exporter):
             return
         # If dry run mode, do nothing
         for record in records:
-            print (record)
-
-    def start_logging(self):
-        """Start logging in the exporter"""
-        logging.getLogger("clilogger")
-        logging.info("Running %s exporter", self.name)
-        logging.info("START_DT=%s", self.start_dt)
-        logging.info("END_DT=%s", self.end_dt)
+            print(record)
 
     def run(self):
-        """The main function to run the WBTC exporter"""
+        """The main function to run the Multichain exporter"""
         self.start_logging()
         records = self.read_records()
         if not records:

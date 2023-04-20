@@ -5,8 +5,8 @@ Provide process function that could keep the required data in CH table format
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
-from lib.wbtc.constants import WBTC_FACTORY, WBTC_TOKEN
+from lib.constants import LOG_FREQUENCY, ETHEREUM
+from lib.multichain.constants import chain_info
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -28,16 +28,23 @@ def map_events_to_dictionary(project_name, events):
 
         return {
             "tx_hash": event[0],
-            "pool_address": event[1],
+            "contract_addr": event[1],
             "dt": event[3],
             "log_index": event[4],
             "action": event[5],
             "project_name": project_name,
             "args": args_dict,
+            "transfer_contract": event[6],
         }
 
     return map(map_args, events)
 
+def get_chain(chain_id):
+    """Get the chain name from chain id"""
+    try:
+        return chain_info[chain_id]["name"].lower()
+    except KeyError:
+        return chain_id
 
 def build_event(event):
     """
@@ -47,17 +54,20 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    user = args_dict["requester"]
     amount = int(args_dict["amount"])
     amount_in, amount_out = amount, amount
 
-    if action == "mint":
-        chain_in, chain_out = BITCOIN, ETHEREUM
-        token_in, token_out = BITCOIN, WBTC_TOKEN
+    if action == "swap_in":
+        chain_id = args_dict["fromChainID"]
+        user = args_dict["to"]
+        chain_in, chain_out = get_chain(chain_id), ETHEREUM
+        token_in, token_out = args_dict["token"], event["transfer_contract"]
 
-    elif action == "burn":
-        chain_in, chain_out = ETHEREUM, BITCOIN
-        token_in, token_out = WBTC_TOKEN, BITCOIN
+    elif action == "swap_out":
+        chain_id = args_dict["toChainID"]
+        user = args_dict["from"]
+        chain_in, chain_out = ETHEREUM, get_chain(chain_id)
+        token_in, token_out = event["transfer_contract"], args_dict["token"]
     else:
         raise RuntimeError("The event contains an invalid action")
 
@@ -67,7 +77,7 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": WBTC_FACTORY,
+        "contract_addr": event["contract_addr"],
         "token_in": token_in,
         "token_out": token_out,
         "amount_in": amount_in,

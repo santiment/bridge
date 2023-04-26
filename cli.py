@@ -7,6 +7,7 @@ import fire
 from lib.constants import LOG_FORMAT, LOG_LEVEL, LOG_DATE_FORMAT
 from lib.wbtc.wbtc import WBTCExporter
 from lib.multichain.multichain import MultichainExporter
+from lib.arbitrum_bridge.arbitrum_bridge import ArbitrumBridgeExporter
 
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL, datefmt=LOG_DATE_FORMAT)
 console = logging.StreamHandler()
@@ -19,5 +20,6 @@ if __name__ == "__main__":
         {
             "wbtc": WBTCExporter().run(),
             "multichain": MultichainExporter().run(),
+            "arbitrum_bridge": ArbitrumBridgeExporter().run(),
         }
     )

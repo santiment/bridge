@@ -1,7 +1,10 @@
 """Arbitrum bridge Exporter Class"""
 import logging
 from lib.exporter import Exporter
-from lib.arbitrum_bridge.query import build_events_query
+from lib.arbitrum_bridge.query import (
+    build_events_query,
+    build_eth_transfer_query
+)
 from lib.arbitrum_bridge.process import process
 
 class ArbitrumBridgeExporter(Exporter):
@@ -19,10 +22,12 @@ class ArbitrumBridgeExporter(Exporter):
 
         Return: records after clickhouse client execution
         """
-        read_query = build_events_query(self.start_dt, self.end_dt)
-        records = self.read_ch_client.execute(read_query)
+        event_query = build_events_query(self.start_dt, self.end_dt)
+        eth_transfer_query = build_eth_transfer_query(self.start_dt, self.end_dt)
+        event_records = self.read_ch_client.execute(event_query)
+        eth_transfer_records = self.read_ch_client.execute(eth_transfer_query)
 
-        return records
+        return event_records, eth_transfer_records
 
     def insert_records(self, records):
         """
@@ -49,9 +54,12 @@ class ArbitrumBridgeExporter(Exporter):
     def run(self):
         """The main function to run the Arbitrum bridge exporter"""
         self.start_logging()
-        records = self.read_records()
-        if not records:
+        event_records, eth_transfer_records = self.read_records()
+        if not event_records and not eth_transfer_records:
             logging.info("No records found for %s", self.name)
             return
-        processed_records = process(project_name=self.name, records=records)
-        self.insert_records(processed_records)
+        processed_event_records = process(project_name=self.name, records=event_records)
+        self.insert_records(processed_event_records)
+
+        processed_eth_transfer_records = process(project_name=self.name, records=eth_transfer_records)
+        self.insert_records(processed_eth_transfer_records)

@@ -36,5 +36,8 @@ class ArbitrumOneExporter(Exporter):
         if not records:
             logging.info("No records found for %s", self.name)
             return
-        processed_event_records = process(project_name=self.name, records=records)
+        processed_event_records = process(
+            project_name=self.name,
+            records=records
+        )
         self.insert_records(processed_event_records)

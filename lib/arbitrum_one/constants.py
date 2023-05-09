@@ -5,9 +5,11 @@ Provide constants to be used in arbitrum bridge exporter
 ############## ADDRESSES ##############
 
 ARB_BRIDGE = "0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a".lower()
-ARB_DELAYED_INBOX = "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f".lower() # deposit eth
+# deposit eth
+ARB_DELAYED_INBOX = "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f".lower()
 ARB_GATEWAY_ROUTER = "0x72Ce9c846789fdB6fC1f34aC4AD25Dd9ef7031ef".lower()
-ARB_GATEWAY = "0xcEe284F754E854890e311e3280b767F80797180d".lower() # deposit erc20
+# deposit erc20
+ARB_GATEWAY = "0xcEe284F754E854890e311e3280b767F80797180d".lower()
 
 ############## SIGNATURES ##############
 # withdraw eth

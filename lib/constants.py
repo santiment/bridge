@@ -52,4 +52,7 @@ ETH_TRANSFERS_TABLE = os.getenv("ETH_TRANSFERS_TABLE", "eth_transfers")
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 ############## CHAIN ##############
-ETHEREUM, BITCOIN = "ethereum", "bitcoin"
+ETHEREUM = "ethereum"
+BITCOIN = "bitcoin"
+ARBITRUM_ONE = "arbitrum-one"
+ARBITRUM_NOVA = "arbitrum-nova"

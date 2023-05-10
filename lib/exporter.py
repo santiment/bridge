@@ -42,8 +42,19 @@ class Exporter:
         pass
 
     def insert_records(self, records):
-        """Write the processed data to clickhouse"""
-        pass
+        """
+        Write the processed data to clickhouse
+
+        param:
+            records: Processed records generator from process function
+        """
+        logging.debug("Insert query: %s", self.insert_query)
+        if self.dry_run != 1:
+            self.write_ch_client.execute(self.insert_query, records)
+            return
+        # If dry run mode, do nothing
+        for record in records:
+            print (record)
 
     def start_logging(self):
         """Start logging in the exporter"""

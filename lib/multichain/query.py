@@ -12,8 +12,7 @@ from lib.constants import ERC20_TRANSFERS_TABLE
 
 def build_events_query(start_dt, end_dt):
     """
-    Read events from eth_events_v2 table using the lending pools contract
-    and the signature corresponding to borrow/deposit/withdraw/repay/liduidate actions.
+    Read events from eth_events_v2 table using bridge protoccol contracts
     """
 
     query_string = f"""

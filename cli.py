@@ -8,6 +8,7 @@ from lib.constants import LOG_FORMAT, LOG_LEVEL, LOG_DATE_FORMAT
 from lib.wbtc.wbtc import WBTCExporter
 from lib.multichain.multichain import MultichainExporter
 from lib.arbitrum_one.arbitrum_one import ArbitrumOneExporter
+from lib.arbitrum_nova.arbitrum_nova import ArbitrumNovaExporter
 
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL, datefmt=LOG_DATE_FORMAT)
 console = logging.StreamHandler()
@@ -21,5 +22,6 @@ if __name__ == "__main__":
             "wbtc": WBTCExporter().run,
             "multichain": MultichainExporter().run,
             "arbitrum_one": ArbitrumOneExporter().run,
+            "arbitrum_nova": ArbitrumNovaExporter().run,
         }
     )

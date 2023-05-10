@@ -3,7 +3,7 @@ Provide functions for clickhouse query in arbitrum bridge exporter
 """
 
 from lib.constants import ETH_EVENTS_TABLE, ETH_TRANSFERS_TABLE
-from lib.arbitrum_one.constants import (
+from lib.arbitrum_nova.constants import (
     ARB_BRIDGE,
     ARB_GATEWAY,
     ARB_ERC20_GATEWAY,

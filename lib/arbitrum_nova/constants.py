@@ -1,16 +1,15 @@
 """
-Provide constants to be used in arbitrum-one exporter
+Provide constants to be used in arbitrum-nova exporter
 """
 
 ############## ADDRESSES ##############
 
-ARB_BRIDGE = "0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a".lower()
+ARB_BRIDGE = "0xC1Ebd02f738644983b6C4B2d440b8e77DdE276Bd".lower()
 # deposit eth
-ARB_DELAYED_INBOX = "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f".lower()
-ARB_GATEWAY_ROUTER = "0x72Ce9c846789fdB6fC1f34aC4AD25Dd9ef7031ef".lower()
+ARB_DELAYED_INBOX = "0xc4448b71118c9071Bcb9734A0EAc55D18A153949".lower()
 # deposit erc20
-ARB_GATEWAY = "0xcEe284F754E854890e311e3280b767F80797180d".lower()
-ARB_ERC20_GATEWAY = "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC".lower()
+ARB_GATEWAY = "0x23122da8C581AA7E0d07A36Ff1f16F799650232f".lower()
+ARB_ERC20_GATEWAY = "0xB2535b988dcE19f9D71dfB22dB6da744aCac21bf".lower()
 
 ############## SIGNATURES ##############
 # withdraw eth

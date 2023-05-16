@@ -24,21 +24,6 @@ class MultichainExporter(Exporter):
 
         return records
 
-    def insert_records(self, records):
-        """
-        Write the processed data to a database
-
-        param:
-            records: Processed records generator from process function
-        """
-        logging.debug("Insert query: %s", self.insert_query)
-        if self.dry_run != 1:
-            self.write_ch_client.execute(self.insert_query, records)
-            return
-        # If dry run mode, do nothing
-        for record in records:
-            print(record)
-
     def run(self):
         """The main function to run the Multichain exporter"""
         self.start_logging()

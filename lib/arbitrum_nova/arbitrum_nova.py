@@ -1,13 +1,13 @@
-"""Arbitrum-one bridge Exporter Class"""
+"""Arbitrum-nova bridge Exporter Class"""
 import logging
 from lib.exporter import Exporter
-from lib.arbitrum_one.query import (
+from lib.arbitrum_nova.query import (
     build_events_query,
     build_eth_deposit_query
 )
-from lib.arbitrum_one.process import process
+from lib.arbitrum_nova.process import process
 
-class ArbitrumOneExporter(Exporter):
+class ArbitrumNovaExporter(Exporter):
     """
     Arbitrum bridge Exporter Class, used to export Arbitrum transactions
     between ethereum and Arbitrum.

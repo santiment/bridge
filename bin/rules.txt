@@ -2,3 +2,6 @@
 2. Keep the code clean and readable.
 3. The input and output files should contains `constants.py`, `process.py`, `query.py`, and `{new_exporter}.py`
 4. Separate the output files properly, with filenames.
+5. The sql query should be designed accurately and carefully.
+6. Address is ``
+7. Event : {}

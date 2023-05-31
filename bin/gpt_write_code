@@ -29,6 +29,7 @@ echo "$CONTENT"
 (./g $(cat <<EOF
 You are a great python developer in Santiment,
 and you need to learn the exporter python code provided, follow the structure and usage,
-then write python code for another exporter by following the rules separated by the string \"${SEPARATOR}\".
+then write python code for another exporter, keep the code clean and readable, 
+by following the rules separated by the string \"${SEPARATOR}\".
 EOF
-    ) <<< "$CONTENT" ) >> ./new_exporter.py
+    ) <<< "$CONTENT" ) > ./new_exporter.py

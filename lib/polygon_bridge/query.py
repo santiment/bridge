@@ -1,17 +1,14 @@
 """
-Provide functions for clickhouse query in polygon bridge exporter
+Provide functions for clickhouse query in polygon_bridge exporter
 """
 
-from lib.constants import ETH_TRANSFERS_TABLE, ERC20_TRANSFERS_TABLE
+from lib.constants import ETH_EVENTS_TABLE
 from lib.polygon_bridge.constants import (
     POLYGON_BRIDGE,
-    POLYGON_ETHER_BRIDGE
+    LOCKED_ERC20_SIG,
+    LOCKED_ETHER_SIG,
+    EXITED_ETHER_SIG
 )
-
-
-"""
-Provide functions for clickhouse query in polygon exporter
-"""
 
 
 def build_events_query(start_dt, end_dt):
@@ -20,26 +17,27 @@ def build_events_query(start_dt, end_dt):
     """
 
     query_string = f"""
-    SELECT
-    tx_hash,
-    contract_addr,
-    args,
-    dt,
-    log_index,
-    CASE
-    WHEN signature = '{MINT_CONFIRMED_SIG}' THEN 'mint'
-    WHEN signature = '{BURNED_CONFIRMED_SIG}' THEN 'burn'
-    END as action
+    SELECT 
+        tx_hash,
+        contract_addr,
+        args,
+        dt,
+        log_index,
+        CASE 
+            WHEN signature = '{LOCKED_ERC20_SIG}' THEN 'LockedERC20'
+            WHEN signature = '{LOCKED_ETHER_SIG}' THEN 'LockedEther'
+            WHEN signature = '{EXITED_ETHER_SIG}' THEN 'ExitedEther'
+        END as action
     FROM
-    {ETH_EVENTS_TABLE}
+        {ETH_EVENTS_TABLE}
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND contract_addr = '{POLYGON_FACTORY}'
-        AND signature IN ['{MINT_CONFIRMED_SIG}', '{BURNED_CONFIRMED_SIG}']
+        AND contract_addr = '{POLYGON_BRIDGE}'
+        AND signature IN ['{LOCKED_ERC20_SIG}', '{LOCKED_ETHER_SIG}', '{EXITED_ETHER_SIG}']
     ORDER BY
-    dt DESC,
-    log_index DESC
+        dt DESC,
+        log_index DESC
     """
+    print (query_string)
     return query_string
-

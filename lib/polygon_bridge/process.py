@@ -5,8 +5,8 @@ Provide process function that could keep the required data in CH table format
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, BITCOIN
-from lib.polygon_bridge.constants import WBTC_FACTORY, WBTC_TOKEN
+from lib.constants import LOG_FREQUENCY, ETHEREUM, POLYGON
+from lib.polygon_bridge.constants import POLYGON_BRIDGE
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -47,17 +47,20 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    user = args_dict["requester"]
+    user = args_dict["depositor"]
     amount = int(args_dict["amount"])
-    amount_in, amount_out = amount, amount
 
-    if action == "mint":
-        chain_in, chain_out = BITCOIN, ETHEREUM
-        token_in, token_out = BITCOIN, WBTC_TOKEN
+    if action == "LockedERC20":
+        chain_in, chain_out = ETHEREUM, POLYGON
+        token_in, token_out = args_dict["rootToken"], args_dict["rootToken"]
 
-    elif action == "burn":
-        chain_in, chain_out = ETHEREUM, BITCOIN
-        token_in, token_out = WBTC_TOKEN, BITCOIN
+    elif action == "LockedEther":
+        chain_in, chain_out = ETHEREUM, POLYGON
+        token_in, token_out = ETHEREUM, ETHEREUM
+
+    elif action == "ExitedEther":
+        chain_in, chain_out = POLYGON, ETHEREUM
+        token_in, token_out = ETHEREUM, ETHEREUM
     else:
         raise RuntimeError("The event contains an invalid action")
 
@@ -67,11 +70,11 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": WBTC_FACTORY,
+        "contract_addr": POLYGON_BRIDGE,
         "token_in": token_in,
         "token_out": token_out,
-        "amount_in": amount_in,
-        "amount_out": amount_out,
+        "amount_in": amount,
+        "amount_out": amount,
         "project_name": event["project_name"],
         "user": user,
         "args": json.dumps(args_dict),

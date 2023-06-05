@@ -1,0 +1,8 @@
+1. Module and project name: polygon_bridge
+2. The input and output files should contains `constants.py`, `process.py`, `query.py` and `{project_name}.py`.
+3. The code that you give must be in the order of ['constants.py', 'process.py', 'query.py', f'{project_name}.py'].
+4. You have to separate each file using "#####This is a new file#####\n"
+5. Address: "0xa0c68c638235ee32657e8f720a23cec1bfc77c77"
+6. Sample events for polygon_bridge: `LockedERC20 (index_topic_1 address depositor, index_topic_2 address depositReceiver, index_topic_3 address rootToken, uint256 amount)`
+`LockedEther (index_topic_1 address depositor, index_topic_2 address depositReceiver, uint256 amount)`
+`ExitedEther (index_topic_1 address exitor, uint256 amount)`

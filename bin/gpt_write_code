@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIRECTORY="../lib/wbtc"
+DIRECTORY="../lib/arbitrum_one"
 
 RULES=$(cat ./rules.txt)
 

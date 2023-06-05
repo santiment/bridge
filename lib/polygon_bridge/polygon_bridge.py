@@ -1,4 +1,4 @@
-"""Polygon Bridge Exporter Class"""
+"""PolygonBridge Exporter Class"""
 import logging
 from lib.exporter import Exporter
 from lib.polygon_bridge.query import build_events_query
@@ -6,7 +6,7 @@ from lib.polygon_bridge.process import process
 
 class PolygonBridgeExporter(Exporter):
     """
-    Polygon Bridge Exporter Class, used to export bridge transactions
+    PolygonBridge Exporter Class, used to export polygon bridge transactions
     between ethereum and polygon.
     """
     def __init__(self):
@@ -25,7 +25,7 @@ class PolygonBridgeExporter(Exporter):
         return records
 
     def run(self):
-        """The main function to run the Polygon Bridge exporter"""
+        """The main function to run the PolygonBridge exporter"""
         self.start_logging()
         records = self.read_records()
         if not records:

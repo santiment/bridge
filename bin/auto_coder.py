@@ -84,14 +84,17 @@ def re_run(k=1):
 if __name__ == "__main__":
     bash_script = './gpt_write_code'
     gpt_file = 'new_exporter.py'
-    project_name = 'polygon_bridge'
+    project_name = 'stargate'
     log_file = 'bridge.log'
     
 
     generate_code(bash_script)
     format_code(gpt_file, project_name)
-    result = run_program(project_name)
 
-    while (result.failed()):
-        fix_code(result)
-        result = run_program(project_name)
+
+
+    #result, log = run_program(project_name)
+
+    # while (result.failed()):
+    #     fix_code(result)
+    #     result = run_program(project_name)

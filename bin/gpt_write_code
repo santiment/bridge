@@ -2,7 +2,7 @@
 
 DIRECTORY="../lib/arbitrum_one"
 
-RULES=$(cat ./rules.txt)
+RULES=$(cat ./polygon_rules.txt)
 
 SEPARATOR="**********"
 CONTENT=""
@@ -29,7 +29,9 @@ echo "$CONTENT"
 (./g $(cat <<EOF
 You are a great python developer in Santiment,
 and you need to learn the exporter python code provided, follow the structure and usage,
-then write python code for another exporter, keep the code clean and readable, 
+then write python code for another exporter, keep the code and sql query clean and readable,
 by following the rules separated by the string \"${SEPARATOR}\".
+The input files should contains "constants.py", "process.py", "query.py" and "{project_name}.py".
+And the code that you give must be in the order of ['constants.py', 'process.py', 'query.py'], do not write code for "{project_name}.py".
 EOF
     ) <<< "$CONTENT" ) > ./new_exporter.py

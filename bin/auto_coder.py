@@ -3,6 +3,7 @@ import subprocess
 import importlib
 from subprocess import PIPE
 from pathlib import Path
+import argparse
 #from clickhouse_driver import Client
 
 SEPARATOR = "##### This is a new file#####\n"
@@ -82,9 +83,14 @@ def re_run(k=1):
         generate_code()
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("project_name", type=str)
+    args = parser.parse_args()
+    
     bash_script = './gpt_write_code'
     gpt_file = 'new_exporter.py'
-    project_name = 'stargate'
+    #project_name = 'polygon_bridge'
+    project_name = args.project_name
     log_file = 'bridge.log'
     
 

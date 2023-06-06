@@ -1,0 +1,24 @@
+1. Module and project name: polygon_bridge
+2. You have to separate each output file using "#####This is a new file#####\n"
+3. Some useful addresses: POLYGON_ERC20_BRIDGE = "0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf".lower(), 
+POLYGON_ETHER_BRIDGE = "0x8484Ef722627bf18ca5Ae6BcF031c23E6e922B30".lower()
+4. You should track the ERC20 token and ETH using Santiment tables: `erc20_transfers` and `eth_transfers`.
+5. erc20_transfers table include following columns: {"dt", "from", "to", "value", "contract", "transactionHash"} etc.
+6. The output database table schema should be reflected in the `build_event` function in the `process.py` file.
+The output dictionary must contain the field like:
+event_dict = {
+    "tx_hash": event["tx_hash"],
+    "log_index": event["log_index"],
+    "dt": event["dt"],
+    "chain_in": chain_in,
+    "chain_out": chain_out,
+    "contract_addr": event["contract_address"],
+    "token_in": token_in,
+    "token_out": token_out,
+    "amount_in": amount_in,
+    "amount_out": amount_out,
+    "project_name": event["project_name"],
+    "user": user,
+    "args": args_string,
+    "computed_at": None
+}

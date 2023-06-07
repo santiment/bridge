@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIRECTORY="../lib/arbitrum_one"
+DIRECTORY="../lib/wbtc"
 
 RULES=$(cat ./polygon_rules.txt)
 

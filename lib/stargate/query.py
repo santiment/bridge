@@ -32,7 +32,7 @@ def build_events_query(start_dt, end_dt):
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND signature IN ['{SWAP_SIG}', '{SEND_CREDITS_SIG}']
+        AND signature IN ['{SWAP_SIG}']
     ORDER BY
         dt DESC,
         log_index DESC

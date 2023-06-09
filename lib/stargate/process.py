@@ -7,7 +7,7 @@ from datetime import datetime
 from itertools import repeat
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, BSC
-from lib.stargate.constants import Router, ETH_Router, SWAP_SIG, SEND_CREDITS_SIG
+#from lib.stargate.constants import Router, ETH_Router, SWAP_SIG, SEND_CREDITS_SIG
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -28,7 +28,6 @@ def map_args(event, project_name):
         "dt": event[3],
         "log_index": event[4],
         "action": event[5],
-        "token_type": event[6],
         "project_name": project_name,
         "args": args_dict,
     }
@@ -49,30 +48,17 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    token_type = event["token_type"]
 
     #Fill chain_in and chain_out based on action
     if action == "swap":
         chain_in, chain_out = ETHEREUM, BSC
     elif action == "send_credits":
         chain_in, chain_out = BSC, ETHEREUM
-
-    #Fill token_in and token_out based on token_type
-    if token_type == "eth":
-        token_in, token_out = ETHEREUM, ETHEREUM
-
-        if action == "swap":
-            amount_in, amount_out = args_dict["amountSD"], args_dict["eqReward"]
-            user = args_dict["from"]
-        elif action == "send_credits":
-            amount_in, amount_out = args_dict["credits"], args_dict["idealBalance"]
-            user = args_dict["to"]
-
-    elif token_type == "erc20":
-        token_in, token_out = args_dict["tokenIn"], args_dict["tokenOut"]
-        amount_in, amount_out = args_dict["amountIn"], args_dict["amountOut"]
-        user = args_dict["from"]
-
+    
+    token_in, token_out = event["contract_address"], event["contract_address"]
+    amount_in, amount_out = args_dict["amountSD"], args_dict["amountSD"]
+    user = args_dict["from"]
+    
     args_string = json.dumps(args_dict) if args_dict else ""
     event_dict = {
         "tx_hash": event["tx_hash"],

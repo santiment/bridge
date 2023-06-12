@@ -31,6 +31,7 @@ def map_args(event, project_name):
         "action": event[5],
         "project_name": project_name,
         "args": args_dict,
+        "withdraw_args": json.loads(event[6]) if event[6] else ""
     }
 
 def map_events_to_dictionary(project_name, events):
@@ -49,12 +50,17 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    chain_id = args_dict["chainId"]
-    chain_in, chain_out = ETHEREUM, get_chain(chain_id)
     
     token_in, token_out = event["contract_address"], event["contract_address"]
     amount_in, amount_out = args_dict["amountSD"], args_dict["amountSD"]
-    user = args_dict["from"]
+    if action == "deposit":
+        user = args_dict["from"]
+        chain_id = args_dict["chainId"]
+        chain_in, chain_out = ETHEREUM, get_chain(chain_id)
+    elif action == "withdraw":
+        user = args_dict["to"]
+        chain_id = event["withdraw_args"]["chainId"]
+        chain_in, chain_out = get_chain(chain_id), ETHEREUM
     
     args_string = json.dumps(args_dict) if args_dict else ""
     event_dict = {

@@ -5,9 +5,8 @@ Provide functions for clickhouse query in stargate exporter
 from lib.constants import ETH_EVENTS_TABLE
 from lib.stargate.constants import (
     SWAP_SIG,
-    SEND_CREDITS_SIG,
-    ROUTER,
-    ETH_ROUTER
+    CREDIT_CHAIN_PATH_SIG,
+    SWAP_REMOTE_SIG
 )
 
 
@@ -17,6 +16,20 @@ def build_events_query(start_dt, end_dt):
     """
 
     query_string = f"""
+    WITH chain_path AS (
+    SELECT
+        tx_hash,
+        contract_addr,
+        args,
+        dt,
+        log_index
+    FROM {ETH_EVENTS_TABLE}
+    WHERE
+        dt >= toDateTime('{start_dt}')
+        AND dt < toDateTime('{end_dt}')
+        AND signature = '{CREDIT_CHAIN_PATH_SIG}'
+    )
+
     SELECT 
         tx_hash,
         contract_addr,
@@ -24,19 +37,20 @@ def build_events_query(start_dt, end_dt):
         dt,
         log_index,
         CASE 
-            WHEN signature = '{SWAP_SIG}' THEN 'swap'
-            WHEN signature = '{SEND_CREDITS_SIG}' THEN 'send_credits'
-        END as action
+            WHEN e.signature = '{SWAP_SIG}' THEN 'deposit'
+            WHEN e.signature = '{SWAP_REMOTE_SIG}' THEN 'withdraw'
+        END as action,
+        chain_path.args as chain_args     
     FROM
-        {ETH_EVENTS_TABLE}
+        {ETH_EVENTS_TABLE} AS e 
+        LEFT JOIN chain_path
+        ON e.tx_hash = chain_path.tx_hash
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND signature IN ['{SWAP_SIG}']
+        AND e.signature IN ['{SWAP_SIG}', '{SWAP_REMOTE_SIG}']
     ORDER BY
         dt DESC,
         log_index DESC
     """
-    print (query_string)
     return query_string
-

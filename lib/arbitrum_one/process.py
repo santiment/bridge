@@ -21,7 +21,8 @@ def process(project_name, records):
 def map_args(event, project_name):
     """ Map the query result from event table and transfers table for arb bridge."""
     # results from eth_events_v2 table
-    if len(event) > 5:
+    EVENT_QUERY_LENGTH = 5
+    if len(event) > EVENT_QUERY_LENGTH:
         args_dict = json.loads(event[2])
 
         return {

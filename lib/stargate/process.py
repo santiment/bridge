@@ -3,11 +3,12 @@ Provide process function that could keep the required data in CH table format
 """
 
 import json
+import logging
 from datetime import datetime
 from itertools import repeat
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, BSC
-#from lib.stargate.constants import Router, ETH_Router, SWAP_SIG, SEND_CREDITS_SIG
+from lib.constants import LOG_FREQUENCY, ETHEREUM
+from lib.stargate.constants import CHAIN_DICT
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -48,12 +49,8 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-
-    #Fill chain_in and chain_out based on action
-    if action == "swap":
-        chain_in, chain_out = ETHEREUM, BSC
-    elif action == "send_credits":
-        chain_in, chain_out = BSC, ETHEREUM
+    chain_id = args_dict["chainId"]
+    chain_in, chain_out = ETHEREUM, get_chain(chain_id)
     
     token_in, token_out = event["contract_address"], event["contract_address"]
     amount_in, amount_out = args_dict["amountSD"], args_dict["amountSD"]
@@ -84,3 +81,10 @@ def generate_structured_records(events):
         structured = build_event(event)
         if structured:
             yield structured
+
+def get_chain(chain_id):
+    """Get chain name based on chain id provided in event args"""
+    if chain_id not in CHAIN_DICT:
+        logging.info("ChainId %s not found in stored dict!", chain_id)
+        return chain_id
+    return CHAIN_DICT[chain_id]

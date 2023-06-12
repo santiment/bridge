@@ -1,6 +1,7 @@
 """
 Provide constants to be used in stargate exporter
 """
+import lib.constants as const
 
 ############## ADDRESSES ##############
 
@@ -13,6 +14,18 @@ SWAP_SIG = "0x34660fc8af304464529f48a778e03d03e4d34bcd5f9b6f0cfbf3cd238c642f7f".
 # send credits sig
 SEND_CREDITS_SIG = "0x6939f93e3f21cf1362eb17155b740277de5687dae9a83a85909fd71da95944e7".lower()
 
+############## Chain ID ################
+# Reference: https://stargateprotocol.gitbook.io/stargate/developers/chain-ids
+CHAIN_DICT = {
+    "101": const.ETHEREUM,
+    "102": const.BSC,
+    "106": const.AVALANCHE,
+    "109": const.POLYGON,
+    "110": const.ARBITRUM_NOVA,
+    "111": const.AVALANCHE,
+    "112": const.FANTOM,
+    "151": const.METIS
+}
 # Swap: user_address -> Router
 # SendCredits: Router -> user_address
 # Withdraw not found

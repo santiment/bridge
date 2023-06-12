@@ -11,7 +11,7 @@ SEPARATOR = "##### This is a new file#####\n"
 # class Commands:
 #     read_file
 #     wirte_file
-    
+
 
 class ProgramResult:
     pass

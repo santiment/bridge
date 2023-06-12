@@ -3,7 +3,7 @@
 import openai
 
 # Set up your OpenAI API credentials
-openai.api_key = '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'
+openai.api_key = '****'
 
 # Make a request to the API
 completion = openai.ChatCompletion.create(

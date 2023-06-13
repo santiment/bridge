@@ -6,7 +6,7 @@ from lib.constants import ETH_TRANSFERS_TABLE, ERC20_TRANSFERS_TABLE
 from lib.polygon_bridge.constants import (
     POLYGON_ERC20_BRIDGE,
     POLYGON_ETHER_BRIDGE,
-    TRANSFER_EVENT_SIG
+    POLYGON_BRIDGE
 )
 
 
@@ -18,29 +18,59 @@ def build_events_query(start_dt, end_dt):
     query_string = f"""
     SELECT 
         transactionHash as tx_hash,
-        contract as contract_address,
-        to as user,
+        from as user,
         value,
-        dt
+        dt,
+        'eth' as token,
+        'deposit' as action
     FROM
         {ETH_TRANSFERS_TABLE}
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND contract = '{POLYGON_ETHER_BRIDGE}'
+        AND to = '{POLYGON_BRIDGE}'
     UNION ALL
     SELECT 
         transactionHash as tx_hash,
-        contract as contract_address,
         to as user,
         value,
-        dt
+        dt,
+        'eth' as token,
+        'withdraw' as action
+    FROM
+        {ETH_TRANSFERS_TABLE}
+    WHERE
+        dt >= toDateTime('{start_dt}')
+        AND dt < toDateTime('{end_dt}')
+        AND from = '{POLYGON_ETHER_BRIDGE}'
+    UNION ALL
+    SELECT 
+        transactionHash as tx_hash,
+        from as user,
+        value,
+        dt, 
+        contract as token,
+        'deposit' as action
     FROM
         {ERC20_TRANSFERS_TABLE}
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND contract = '{POLYGON_ERC20_BRIDGE}'
-        AND left(input, 10) = '{TRANSFER_EVENT_SIG}'
+        AND to = '{POLYGON_ERC20_BRIDGE}'
+
+    UNION ALL
+    SELECT 
+        transactionHash as tx_hash,
+        to as user,
+        value,
+        dt,
+        contract as token,
+        'withdraw' as action
+    FROM
+        {ERC20_TRANSFERS_TABLE}
+    WHERE
+        dt >= toDateTime('{start_dt}')
+        AND dt < toDateTime('{end_dt}')
+        AND from = '{POLYGON_ERC20_BRIDGE}'
     """
     return query_string

@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, POLYGON
-from lib.polygon_bridge.constants import POLYGON_ERC20_BRIDGE, POLYGON_ETHER_BRIDGE
+from lib.polygon_bridge.constants import POLYGON_BRIDGE, POLYGON_ETHER_BRIDGE
 
 
 def process(project_name, records):
@@ -25,31 +25,14 @@ def map_events_to_dictionary(project_name, events):
     """
 
     def map_args(event):
-        contract_address = event[1]
-        if contract_address == POLYGON_ETHER_BRIDGE:
-            token_in = ETHEREUM
-            chain_in = ETHEREUM
-            chain_out = POLYGON
-            token_out = POLYGON_ERC20_BRIDGE
-        elif contract_address == POLYGON_ERC20_BRIDGE:
-            token_in = event[1]
-            chain_in = POLYGON
-            chain_out = ETHEREUM
-            token_out = ETHEREUM
-        else:
-            raise RuntimeError("The event contains an invalid contract address")
-
         return {
             "tx_hash": event[0],
-            "contract_address": contract_address,
-            "user": event[2],
-            "amount": int(event[3]),
-            "dt": event[4],
-            "project_name": project_name,
-            "token_in": token_in,
-            "chain_in": chain_in,
-            "chain_out": chain_out,
-            "token_out": token_out,
+            "user": event[1],
+            "amount": int(event[2]),
+            "dt": event[3],
+            "token": event[4],
+            "action": event[5],
+            "project_name": project_name
         }
 
     return map(map_args, events)
@@ -60,23 +43,31 @@ def build_event(event):
     Referenced in process function, the event would be formatted as the bridge_transactions table.
     :param event: event dict from eth_transfers and erc20_transfers table
     """
+    action, token = event["action"], event["token"]
+    user = event["user"]
+    if action == "deposit":
+        chain_in, chain_out = ETHEREUM, POLYGON
+    elif action == "withdraw":
+        chain_in, chain_out = POLYGON, ETHEREUM
+    else:
+        raise RuntimeError("The event contains an invalid action")
+    
     event_dict = {
         "tx_hash": event["tx_hash"],
         "dt": event["dt"],
-        "chain_in": event["chain_in"],
-        "chain_out": event["chain_out"],
-        "contract_addr": event["contract_address"],
-        "token_in": event["token_in"],
-        "token_out": event["token_out"],
+        "chain_in": chain_in,
+        "chain_out": chain_out,
+        "contract_addr": POLYGON_BRIDGE,
+        "token_in":token,
+        "token_out": token,
         "amount_in": event["amount"],
         "amount_out": event["amount"],
         "project_name": event["project_name"],
-        "user": event["user"],
+        "user": user,
         "args": json.dumps({}),
         "computed_at": None
     }
     return event_dict
-
 
 def generate_structured_records(events):
     """Generator for structred events"""

@@ -50,7 +50,7 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    
+
     token_in, token_out = event["contract_address"], event["contract_address"]
     amount_in, amount_out = args_dict["amountSD"], args_dict["amountSD"]
     if action == "deposit":
@@ -61,7 +61,7 @@ def build_event(event):
         user = args_dict["to"]
         chain_id = event["withdraw_args"]["chainId"]
         chain_in, chain_out = get_chain(chain_id), ETHEREUM
-    
+
     args_string = json.dumps(args_dict) if args_dict else ""
     event_dict = {
         "tx_hash": event["tx_hash"],

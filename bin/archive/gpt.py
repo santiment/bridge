@@ -1,5 +1,5 @@
 #Reference: https://github.com/openai/openai-python/issues/271
-
+# pylint: disable-all
 import openai
 
 # Set up your OpenAI API credentials

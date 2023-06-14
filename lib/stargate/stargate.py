@@ -32,4 +32,3 @@ class StargateExporter(Exporter):
             return
         processed_records = process(project_name=self.name, records=records)
         self.insert_records(processed_records)
-

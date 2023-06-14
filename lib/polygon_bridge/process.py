@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, POLYGON
-from lib.polygon_bridge.constants import POLYGON_BRIDGE, POLYGON_ETHER_BRIDGE
+from lib.polygon_bridge.constants import POLYGON_BRIDGE
 
 
 def process(project_name, records):
@@ -51,7 +51,7 @@ def build_event(event):
         chain_in, chain_out = POLYGON, ETHEREUM
     else:
         raise RuntimeError("The event contains an invalid action")
-    
+
     event_dict = {
         "tx_hash": event["tx_hash"],
         "dt": event["dt"],

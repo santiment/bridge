@@ -17,60 +17,31 @@ def build_events_query(start_dt, end_dt):
 
     query_string = f"""
     SELECT 
-        transactionHash as tx_hash,
-        from as user,
+        transactionHash AS tx_hash,
+        from AS user,
         value,
         dt,
-        'eth' as token,
-        'deposit' as action
+        'eth' AS token,
+        if(to='{POLYGON_BRIDGE}', 'deposit', 'withdraw') AS action
     FROM
         {ETH_TRANSFERS_TABLE}
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND to = '{POLYGON_BRIDGE}'
+        AND ( to = '{POLYGON_BRIDGE}' or from = '{POLYGON_ETHER_BRIDGE}')
     UNION ALL
     SELECT 
-        transactionHash as tx_hash,
-        to as user,
-        value,
-        dt,
-        'eth' as token,
-        'withdraw' as action
-    FROM
-        {ETH_TRANSFERS_TABLE}
-    WHERE
-        dt >= toDateTime('{start_dt}')
-        AND dt < toDateTime('{end_dt}')
-        AND from = '{POLYGON_ETHER_BRIDGE}'
-    UNION ALL
-    SELECT 
-        transactionHash as tx_hash,
-        from as user,
+        transactionHash AS tx_hash,
+        from AS user,
         value,
         dt, 
-        contract as token,
-        'deposit' as action
+        contract AS token,
+        if(to='{POLYGON_ERC20_BRIDGE}', 'deposit', 'withdraw') AS action
     FROM
         {ERC20_TRANSFERS_TABLE}
     WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
-        AND to = '{POLYGON_ERC20_BRIDGE}'
-
-    UNION ALL
-    SELECT 
-        transactionHash as tx_hash,
-        to as user,
-        value,
-        dt,
-        contract as token,
-        'withdraw' as action
-    FROM
-        {ERC20_TRANSFERS_TABLE}
-    WHERE
-        dt >= toDateTime('{start_dt}')
-        AND dt < toDateTime('{end_dt}')
-        AND from = '{POLYGON_ERC20_BRIDGE}'
+        AND ( to = '{POLYGON_ERC20_BRIDGE}' or from = '{POLYGON_ERC20_BRIDGE}')
     """
     return query_string

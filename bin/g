@@ -26,9 +26,9 @@ EOF
 
 JSON_DATA=$(cat <<EOF
 {
-        "model": "gpt-4",
+        "model": "gpt-3.5-turbo",
         "messages": ${PROMPT},
-        "temperature": 0.2
+        "temperature": 0.25
 }
 EOF
          )

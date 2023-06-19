@@ -1,0 +1,28 @@
+1. Module and project name: stargate
+2. The input and output files should contains `constants.py`, `process.py`, `query.py` and `{project_name}.py`.
+3. The code that you give must be in the order of ['constants.py', 'process.py', 'query.py', f'{project_name}.py'].
+4. You have to separate each file using "#####This is a new file#####\n"
+5. Addresses are: {Router: "0x8731d54E9D02c286767d56ac03e8037C07e01e98", ETH_Router: "0x150f94B44927F078737562f0fcF3C95c01Cc2376"}
+6. Sample events for stargate: 
+{"signature": "0x34660fc8af304464529f48a778e03d03e4d34bcd5f9b6f0cfbf3cd238c642f7f",
+"event": `Swap (uint16 chainId, uint256 dstPoolId, address from, uint256 amountSD, uint256 eqReward, uint256 eqFee, uint256 protocolFee, uint256 lpFee)`},
+{"signature": "0x6939f93e3f21cf1362eb17155b740277de5687dae9a83a85909fd71da95944e7",
+"event": `SendCredits (uint16 dstChainId, uint256 dstPoolId, uint256 credits, uint256 idealBalance)`}
+7. The output database table schema should be reflected in the `build_event` function in the `process.py` file.
+The output dictionary must contain the field like:
+event_dict = {
+    "tx_hash": event["tx_hash"],
+    "log_index": event["log_index"],
+    "dt": event["dt"],
+    "chain_in": chain_in,
+    "chain_out": chain_out,
+    "contract_addr": event["contract_address"],
+    "token_in": token_in,
+    "token_out": token_out,
+    "amount_in": amount_in,
+    "amount_out": amount_out,
+    "project_name": event["project_name"],
+    "user": user,
+    "args": args_string,
+    "computed_at": None
+}

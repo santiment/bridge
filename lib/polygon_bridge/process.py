@@ -54,6 +54,7 @@ def build_event(event):
 
     event_dict = {
         "tx_hash": event["tx_hash"],
+        "log_index": 0,
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,

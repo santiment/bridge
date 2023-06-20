@@ -52,7 +52,7 @@ def build_event(event):
     action = event["action"]
 
     token_in, token_out = event["contract_address"], event["contract_address"]
-    amount_in, amount_out = args_dict["amountSD"], args_dict["amountSD"]
+    amount_in, amount_out = int(args_dict["amountSD"]), int(args_dict["amountSD"])
     if action == "deposit":
         user = args_dict["from"]
         chain_id = args_dict["chainId"]

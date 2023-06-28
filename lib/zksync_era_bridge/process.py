@@ -22,8 +22,19 @@ def map_events_to_dictionary(project_name, events):
     """
     Extract the eth-events into a python dictionary
     """
-
+    
     def map_args(event):
+        event_query_length = 5
+        if len(event) == event_query_length:
+            # eth deposit from eth_transfers table
+            return {
+                "tx_hash": event[0],
+                "dt": event[1],
+                "from": event[2],
+                "value": event[3],
+                "action": event[4],
+                "args" : {}
+            }
         args_dict = json.loads(event[2])
 
         return {
@@ -47,13 +58,30 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    user = args_dict["from"]
-    amount = int(args_dict["amount"])
-    amount_in, amount_out = amount, amount
+    
+    if action == "eth_deposit":
+        chain_in, chain_out = ETHEREUM, ZKSYNC
+        token_in, token_out = ETHEREUM, ETHEREUM
+        amount_in, amount_out = int(event["value"]), int(event["value"])
+        user = event["from"]
 
-    if action == "deposit_initiated":
+    elif action == "eth_withdraw":
+        chain_in, chain_out = ZKSYNC, ETHEREUM
+        token_in, token_out = ETHEREUM, ETHEREUM
+        amount_in, amount_out = int(args_dict["amount"]), int(args_dict["amount"])
+        user = args_dict["to"]
+        
+    elif action == "deposit":
         chain_in, chain_out = ETHEREUM, ZKSYNC
         token_in, token_out = args_dict["l1Token"], args_dict["l1Token"]
+        amount_in, amount_out = int(args_dict["amount"]), int(args_dict["amount"])
+        user = args_dict["from"]
+
+    elif action == "withdraw":
+        chain_in, chain_out = ZKSYNC, ETHEREUM
+        token_in, token_out = args_dict["l1Token"], args_dict["l1Token"]
+        amount_in, amount_out = int(args_dict["amount"]), int(args_dict["amount"])
+        user = args_dict["to"]
 
     else:
         raise RuntimeError("The event contains an invalid action")

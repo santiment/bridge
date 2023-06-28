@@ -1,7 +1,7 @@
 """Zksync era bridge Exporter Class"""
 import logging
 from lib.exporter import Exporter
-from lib.zksync_era_bridge.query import build_events_query
+from lib.zksync_era_bridge.query import build_events_query, build_transfers_query
 from lib.zksync_era_bridge.process import process
 
 class ZksyncEraBridgeExporter(Exporter):
@@ -21,6 +21,9 @@ class ZksyncEraBridgeExporter(Exporter):
         """
         read_query = build_events_query(self.start_dt, self.end_dt)
         records = self.read_ch_client.execute(read_query)
+        read_transfers_query = build_transfers_query(self.start_dt, self.end_dt)
+        transfers_records = self.read_ch_client.execute(read_transfers_query)
+        records.extend(transfers_records)
 
         return records
 

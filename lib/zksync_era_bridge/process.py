@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, ZKSYNC
-from lib.zksync_era_bridge.constants import ZKSYNC_ERA_BRIDGE
+from lib.zksync_era_bridge.constants import ZKSYNC_DIAMOND_PROXY
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -22,7 +22,7 @@ def map_events_to_dictionary(project_name, events):
     """
     Extract the eth-events into a python dictionary
     """
-    
+
     def map_args(event):
         event_query_length = 5
         if len(event) == event_query_length:
@@ -33,7 +33,10 @@ def map_events_to_dictionary(project_name, events):
                 "from": event[2],
                 "value": event[3],
                 "action": event[4],
-                "args" : {}
+                "args" : {},
+                "log_index": 0,
+                "contract_address": ZKSYNC_DIAMOND_PROXY,
+                "project_name": project_name
             }
         args_dict = json.loads(event[2])
 
@@ -58,7 +61,7 @@ def build_event(event):
     """
     args_dict = event["args"]
     action = event["action"]
-    
+
     if action == "eth_deposit":
         chain_in, chain_out = ETHEREUM, ZKSYNC
         token_in, token_out = ETHEREUM, ETHEREUM
@@ -70,7 +73,7 @@ def build_event(event):
         token_in, token_out = ETHEREUM, ETHEREUM
         amount_in, amount_out = int(args_dict["amount"]), int(args_dict["amount"])
         user = args_dict["to"]
-        
+
     elif action == "deposit":
         chain_in, chain_out = ETHEREUM, ZKSYNC
         token_in, token_out = args_dict["l1Token"], args_dict["l1Token"]

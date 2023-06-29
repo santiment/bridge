@@ -1,3 +1,4 @@
+# pylint: disable-all
 """
 Provide constants to be used in zksync_era_bridge exporter
 """

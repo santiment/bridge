@@ -40,7 +40,6 @@ def build_events_query(start_dt, end_dt):
         dt DESC,
         log_index DESC
     """
-    print (query_string)
     return query_string
 
 
@@ -56,11 +55,10 @@ def build_transfers_query(start_dt, end_dt):
         value,
         'eth_deposit' as action
     FROM {ETH_TRANSFERS_TABLE}
-    WHRER
+    WHERE
         dt >= toDateTime('{start_dt}')
         AND dt < toDateTime('{end_dt}')
         AND to = '{ZKSYNC_DIAMOND_PROXY}'
-        AND from != {ZKSYNC_ERA_BRIDGE}
+        AND from != '{ZKSYNC_ERA_BRIDGE}'
     """
-
     return query_string

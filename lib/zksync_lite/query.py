@@ -25,7 +25,7 @@ def build_events_query(start_dt, end_dt):
         dt,
         log_index,
         CASE
-            WHEN signature = '{DEPOSIT_INITIATED_SIG}' THEN 'deposit'
+            WHEN signature = '{DEPOSIT_INITIATED_SIG}' THEN 'deposit'  # This will now include the new deposit event
             WHEN signature = '{WITHDRAWAL_FINALIZED_SIG}' THEN 'withdraw'
             WHEN signature = '{ETH_WITHDRAWAL_FINALIZED_SIG}' THEN 'eth_withdraw'
         END as action

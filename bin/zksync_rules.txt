@@ -1,0 +1,24 @@
+1. Module and project name: zksync_era_bridge
+2. You have to separate each output file using "#####This is a new file#####\n"
+3. Some useful addresses: ZKSYNC_ERA_BRIDGE = "0x57891966931Eb4Bb6FB81430E6cE0A03AAbDe063".lower()
+4. You should track the ERC20 token and ETH using Santiment tables: `eth_events`.
+5. `eth_events` table include following columns: {"dt", "from", "to", "signature", "contract_addr", "transactionHash", "args"} etc.
+6. The output database table schema should be reflected in the `build_event` function in the `process.py` file.
+The output dictionary must contain the field like:
+event_dict = {
+    "tx_hash": event["tx_hash"],
+    "log_index": event["log_index"],
+    "dt": event["dt"],
+    "chain_in": chain_in,
+    "chain_out": chain_out,
+    "contract_addr": event["contract_address"],
+    "token_in": token_in,
+    "token_out": token_out,
+    "amount_in": amount_in,
+    "amount_out": amount_out,
+    "project_name": event["project_name"],
+    "user": user,
+    "args": args_string,
+    "computed_at": None
+}
+7. Sample event: `DepositInitiated (index_topic_1 bytes32 l2DepositTxHash, index_topic_2 address from, index_topic_3 address to, address l1Token, uint256 amount)}`

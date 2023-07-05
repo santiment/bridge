@@ -2,7 +2,7 @@
 
 DIRECTORY="../lib/wbtc"
 
-RULES=$(cat ./polygon_rules.txt)
+RULES=$(cat ./zksync_rules.txt)
 
 SEPARATOR="**********"
 CONTENT=""

@@ -3,6 +3,7 @@ Provide constants to be used in zksync_era_bridge exporter
 """
 
 import requests
+import logging
 
 ZKSYNC_LITE = "0xaBEA9132b05A70803a4E85094fD0e1800777fBEF".lower()
 DEPOSIT_SIG = '0x8f5f51448394699ad6a3b80cdadf4ec68c5d724c8c3fea09bea55b3c2d0e2dd0'
@@ -15,7 +16,7 @@ try:
     res = requests.get(TOKEN_API).json()
     token_dict = {x['id']:x['address'] for x in res}
     token_dict[0] = 'ETH'
-except requests.exceptions.RequestException as e:
-    print(f"Error occurred while making request to TOKEN_API: {e}")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
+except requests.exceptions.RequestException as request_exception:
+    logging.info("Error occurred while making request to TOKEN_API, %s", request_exception)
+except Exception as expt:
+    logging.info("An unexpected error occurred, %s", expt)

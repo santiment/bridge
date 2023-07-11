@@ -15,5 +15,7 @@ try:
     res = requests.get(TOKEN_API).json()
     token_dict = {x['id']:x['address'] for x in res}
     token_dict[0] = 'ETH'
-except:
-    pass
+except requests.exceptions.RequestException as e:
+    print(f"Error occurred while making request to TOKEN_API: {e}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")

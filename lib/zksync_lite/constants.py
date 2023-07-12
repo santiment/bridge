@@ -2,6 +2,7 @@
 Provide constants to be used in zksync_era_bridge exporter
 """
 
+import sys
 import logging
 import requests
 from retry import retry
@@ -15,7 +16,7 @@ WITHDRAWAL_SIG = '0xefef619ae4a542a2b8810b4efeccd8478bd683e985354ee31dd2d644aff6
 
 TOKEN_API = "https://api.zksync.io/api/v0.1/tokens"
 
-@retry(requests.exceptions.RequestException, tries=3, delay=2, backoff=2)
+@retry(requests.exceptions.RequestException, tries=5, delay=2, backoff=2)
 def get_token_dict():
     """Get token id info from zksync api"""
     res = requests.get(TOKEN_API, timeout=5).json()
@@ -27,13 +28,13 @@ try:
     TOKEN_DICT = get_token_dict()
 except Timeout as timeout_exception:
     logging.info("Request timed out: %s", timeout_exception)
-    TOKEN_DICT = None
+    sys.exit(1)
 except HTTPError as http_error:
     logging.info("HTTP error occurred: %s", http_error)
-    TOKEN_DICT = None
+    sys.exit(1)
 except ConnectionError as connection_error:
     logging.info("Connection error occurred: %s", connection_error)
-    TOKEN_DICT = None
+    sys.exit(1)
 except RequestException as request_exception:
     logging.info("Error occurred while making request to TOKEN_API: %s", request_exception)
-    TOKEN_DICT = None
+    sys.exit(1)

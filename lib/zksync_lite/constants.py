@@ -32,7 +32,7 @@ except HTTPError as http_error:
     logging.info("HTTP error occurred: %s", http_error)
     TOKEN_DICT = None
 except ConnectionError as connection_error:
-    print("Connection error occurred:", connection_error)
+    logging.info("Connection error occurred: %s", connection_error)
     TOKEN_DICT = None
 except RequestException as request_exception:
     logging.info("Error occurred while making request to TOKEN_API: %s", request_exception)

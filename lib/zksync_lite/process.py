@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, ZKSYNC
-from lib.zksync_lite.constants import token_dict, ZKSYNC_LITE
+from lib.zksync_lite.constants import TOKEN_DICT, ZKSYNC_LITE
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -53,7 +53,7 @@ def build_event(event):
     amount = int(args_dict["amount"])
     amount_in, amount_out = amount, amount
     try:
-        token_in, token_out = token_dict[token_id], token_dict[token_id]
+        token_in, token_out = TOKEN_DICT[token_id], TOKEN_DICT[token_id]
     except KeyError as key_error:
         logging.info(key_error)
         token_in, token_out = None, None

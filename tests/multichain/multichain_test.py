@@ -4,7 +4,7 @@ from lib.multichain.query import build_events_query
 from lib.multichain.process import process
 from lib.multichain.multichain import MultichainExporter
 
-# pylint: disable=missing-function-docstring, no-self-use, line-too-long
+# pylint: disable=missing-function-docstring, line-too-long
 class TestBuildEventsQuery(unittest.TestCase):
     """Test the build_events query"""
     def test_build_events_query(self):

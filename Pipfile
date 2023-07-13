@@ -12,6 +12,7 @@ pytest-pylint = "*"
 clickhouse-driver = "==0.2.2"
 web3 = "==4.9.2"
 fire = "==.0.4.0"
+retry = "*"
 
 [requires]
 python_version = "3.8"

@@ -30,6 +30,6 @@ if __name__ == "__main__":
             "polygon_bridge": PolygonBridgeExporter().run,
             "stargate": StargateExporter().run,
             "zksync_era_bridge": ZksyncEraBridgeExporter().run,
-            "zksync_lite": ZksyncLiteExporter().run,
+            "zksync_lite": ZksyncLiteExporter().run
         }
     )

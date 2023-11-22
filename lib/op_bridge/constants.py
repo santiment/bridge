@@ -1,0 +1,13 @@
+"""
+Provide constants to be used in op_bridge exporter
+"""
+
+############## ADDRESSES ##############
+
+OP_BRIDGE = "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1".lower()
+
+############## SIGNATURES ##############
+ETH_DEPOSIT_SIG = "0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23"
+ETH_WITHDRAW_SIG = "0x2ac69ee804d9a7a0984249f508dfab7cb2534b465b6ce1580f99a38ba9c5e631"
+ERC20_DEPOSIT_SIG = "0x7ff126db8024424bbfd9826e8ab82ff59136289ea440b04b39a0df1b03b9cabf"
+ERC20_WITHDRAW_SIG = "0xd59c65b35445225835c83f50b6ede06a7be047d22e357073e250d9af537518cd"

@@ -1,7 +1,6 @@
 """
 Provide process function that could keep the required data in CH table format
 """
-
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
@@ -27,11 +26,12 @@ def map_events_to_dictionary(project_name, events):
     def map_args(event):
         return {
             "tx_hash": event[0],
-            "user": event[1],
-            "amount": int(event[2]),
+            "contract_addr": event[1],
+            "args": event[2],
             "dt": event[3],
-            "token": event[4],
-            "action": event[5],
+            "log_index": event[4],
+            "token_type": event[5],
+            "action": event[6],
             "project_name": project_name
         }
 
@@ -44,7 +44,7 @@ def build_event(event):
     :param event: event dict from eth_transfers and erc20_transfers table
     """
     action, token_type = event["action"], event["token_type"]
-    args = event["args"]
+    args = json.loads(event["args"])
     user, amount = args["from"], args["amount"]
     if action == "deposit":
         chain_in, chain_out = ETHEREUM, OPTIMISIM
@@ -52,7 +52,7 @@ def build_event(event):
         chain_in, chain_out = OPTIMISIM, ETHEREUM
     else:
         raise RuntimeError("The event contains an invalid action")
-    
+
     if token_type == "eth":
         token = ETHEREUM
     else:

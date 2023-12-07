@@ -2,11 +2,15 @@
 Provide process function that could keep the required data in CH table format
 """
 import json
+import logging
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, OPTIMISIM
-from lib.op_bridge.constants import OP_BRIDGE
-
+from lib.constants import LOG_FREQUENCY
+from lib.across.constants import (
+    ACROSS_BRIDGE,
+    chain_id,
+    FUNDS_DEPOSIT_SIG
+)
 
 def process(project_name, records):
     """Process the records to have a standard output"""
@@ -30,8 +34,7 @@ def map_events_to_dictionary(project_name, events):
             "args": event[2],
             "dt": event[3],
             "log_index": event[4],
-            "token_type": event[5],
-            "action": event[6],
+            "signature": event[5],
             "project_name": project_name
         }
 
@@ -43,20 +46,24 @@ def build_event(event):
     Referenced in process function, the event would be formatted as the bridge_transactions table.
     :param event: event dict from eth_transfers and erc20_transfers table
     """
-    action, token_type = event["action"], event["token_type"]
     args = json.loads(event["args"])
-    user, amount = args["from"], args["amount"]
-    if action == "deposit":
-        chain_in, chain_out = ETHEREUM, OPTIMISIM
-    elif action == "withdraw":
-        chain_in, chain_out = OPTIMISIM, ETHEREUM
-    else:
-        raise RuntimeError("The event contains an invalid action")
+    signature = event["signature"]
+    amount = args["amount"]
+    in_id, out_id = args["originChainId"], args["destinationChainId"]
+    # Get chain info from chain_id.json
+    try:
+        chain_in, chain_out = chain_id[in_id], chain_id[out_id]
+    except KeyError as key_error:
+        logging.info("Chain id %s / %s missing in chain_id.json!", in_id, out_id)
+        logging.error(key_error)
+        raise KeyError("Chain ids are missing in chain_id.json!") from key_error
 
-    if token_type == "eth":
-        token = ETHEREUM
+    if signature == FUNDS_DEPOSIT_SIG:
+        token = args["originToken"]
+        user = args["depositor"]
     else:
-        token = args["l1Token"]
+        token = args["destinationToken"]
+        user = args["recipient"]
 
     event_dict = {
         "tx_hash": event["tx_hash"],
@@ -64,7 +71,7 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": OP_BRIDGE,
+        "contract_addr": ACROSS_BRIDGE,
         "token_in":token,
         "token_out": token,
         "amount_in": amount,

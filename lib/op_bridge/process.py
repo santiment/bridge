@@ -45,7 +45,7 @@ def build_event(event):
     """
     action, token_type = event["action"], event["token_type"]
     args = json.loads(event["args"])
-    user, amount = args["from"], args["amount"]
+    user, amount = args["from"], int(args["amount"])
     if action == "deposit":
         chain_in, chain_out = ETHEREUM, OPTIMISIM
     elif action == "withdraw":

@@ -48,7 +48,7 @@ def build_event(event):
     """
     args = json.loads(event["args"])
     signature = event["signature"]
-    amount = args["amount"]
+    amount = int(args["amount"])
     in_id, out_id = args["originChainId"], args["destinationChainId"]
     # Get chain info from chain_id.json
     try:

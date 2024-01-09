@@ -1,17 +1,17 @@
-"""Across Exporter Class"""
+"""Manta pacific Bridge Exporter Class"""
 import logging
 from lib.exporter import Exporter
-from lib.across.query import build_events_query
-from lib.across.process import process
+from lib.manta_pacific.query import build_events_query
+from lib.manta_pacific.process import process
 
-class AcrossExporter(Exporter):
+class MantaPacificExporter(Exporter):
     """
-    Across Exporter Class, used to export transactions
-    between ethereum and other blockchains.
+    Manta pacific bridge Exporter Class, used to export transactions
+    between ethereum and manta.
     """
     def __init__(self):
         super().__init__()
-        self.name = "across"
+        self.name = "manta_pacific"
 
     def read_records(self):
         """
@@ -24,7 +24,7 @@ class AcrossExporter(Exporter):
         return event_records
 
     def run(self):
-        """The main function to run the Across bridge exporter"""
+        """The main function to run the Manta pacific bridge exporter"""
         self.start_logging()
         records = self.read_records()
         if not records:

@@ -15,6 +15,7 @@ from lib.zksync_era_bridge.zksync_era_bridge import ZksyncEraBridgeExporter
 from lib.zksync_lite.zksync_lite import ZksyncLiteExporter
 from lib.op_bridge.op_bridge import OPBridgeExporter
 from lib.across.across import AcrossExporter
+from lib.manta_pacific.manta_pacific import MantaPacificExporter
 
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL, datefmt=LOG_DATE_FORMAT)
 console = logging.StreamHandler()
@@ -34,6 +35,7 @@ if __name__ == "__main__":
             "zksync_era_bridge": ZksyncEraBridgeExporter().run,
             "zksync_lite": ZksyncLiteExporter().run,
             "op_bridge": OPBridgeExporter().run,
-            "across": AcrossExporter().run
+            "across": AcrossExporter().run,
+            "manta_pacific": MantaPacificExporter().run,
         }
     )

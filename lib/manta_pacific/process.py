@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
 from lib.constants import LOG_FREQUENCY, ETHEREUM, MANTA
-from lib.op_bridge.constants import OP_BRIDGE
+from lib.manta_pacific.constants import MANTA_PACIFIC_BRIDGE
 
 
 def process(project_name, records):
@@ -64,7 +64,7 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": OP_BRIDGE,
+        "contract_addr": MANTA_PACIFIC_BRIDGE,
         "token_in":token,
         "token_out": token,
         "amount_in": amount,

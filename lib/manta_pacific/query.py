@@ -1,5 +1,5 @@
 """
-Provide functions for clickhouse query in op_bridge exporter
+Provide functions for clickhouse query in manta pacific exporter
 """
 
 from lib.constants import ETH_EVENTS_TABLE

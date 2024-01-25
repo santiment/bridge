@@ -7,22 +7,44 @@ from lib.squid.constants import (
     SQUID_ROUTER,
     AXELAR_GATEWAY,
     CONTRACT_CALL_SIG,
+    WITHDRAW_SIG
 )
 
+def build_withdraw_query(start_dt, end_dt):
+    """
+    Query that get records for tokens transfered from other chains to ethereum
+    """
+    query_string = f"""
+    SELECT
+        tx_hash,
+        dt,
+        args,
+        log_index,
+        '{SQUID_ROUTER}' AS user
+    FROM
+        {ETH_EVENTS_TABLE}
+    WHERE
+        dt >= toDateTime('{start_dt}')
+        AND dt < toDateTime('{end_dt}')
+        AND contract_addr = '{AXELAR_GATEWAY}'
+        AND signature = '{WITHDRAW_SIG}'
+    """
+    return query_string
 
-def build_events_query(start_dt, end_dt):
+
+def build_deposit_query(start_dt, end_dt):
     """
     Read events from eth_transfers and erc20_transfers table using bridge protoccol contracts
     """
 
     query_string = f"""
     SELECT
-    e.tx_hash as tx_hash,
-    any(e.dt) as dt,
-    any(contract) as token,
-    any(args) as args,
-    any(log_index) as log_index,
-    any(from) as from
+    e.tx_hash AS tx_hash,
+    any(e.dt) AS dt,
+    any(contract) AS token,
+    any(args) AS args,
+    any(log_index) AS log_index,
+    any(from) AS from
     FROM (
         SELECT
             erc_user.from AS from,

@@ -4,8 +4,8 @@ Provide process function that could keep the required data in CH table format
 import json
 from datetime import datetime
 from lib.utils import log_iter, add_computed_at
-from lib.constants import LOG_FREQUENCY, ETHEREUM, OPTIMISIM
-from lib.op_bridge.constants import OP_BRIDGE
+from lib.constants import LOG_FREQUENCY, ETHEREUM
+from lib.squid.constants import SQUID_ROUTER
 
 
 def process(project_name, records):
@@ -26,12 +26,11 @@ def map_events_to_dictionary(project_name, events):
     def map_args(event):
         return {
             "tx_hash": event[0],
-            "contract_addr": event[1],
-            "args": event[2],
-            "dt": event[3],
+            "dt": event[1],
+            "token": event[2],
+            "args": event[3],
             "log_index": event[4],
-            "token_type": event[5],
-            "action": event[6],
+            "user": event[5],
             "project_name": project_name
         }
 
@@ -43,20 +42,10 @@ def build_event(event):
     Referenced in process function, the event would be formatted as the bridge_transactions table.
     :param event: event dict from eth_transfers and erc20_transfers table
     """
-    action, token_type = event["action"], event["token_type"]
     args = json.loads(event["args"])
-    user, amount = args["from"], int(args["amount"])
-    if action == "deposit":
-        chain_in, chain_out = ETHEREUM, OPTIMISIM
-    elif action == "withdraw":
-        chain_in, chain_out = OPTIMISIM, ETHEREUM
-    else:
-        raise RuntimeError("The event contains an invalid action")
-
-    if token_type == "eth":
-        token = ETHEREUM
-    else:
-        token = args["l1Token"]
+    token, amount = event["token"], int(args["amount"])
+    chain_in, chain_out = ETHEREUM, args["destinationChain"]
+    user = event["user"]
 
     event_dict = {
         "tx_hash": event["tx_hash"],
@@ -64,7 +53,7 @@ def build_event(event):
         "dt": event["dt"],
         "chain_in": chain_in,
         "chain_out": chain_out,
-        "contract_addr": OP_BRIDGE,
+        "contract_addr": SQUID_ROUTER,
         "token_in":token,
         "token_out": token,
         "amount_in": amount,

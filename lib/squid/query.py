@@ -101,5 +101,4 @@ def build_deposit_query(start_dt, end_dt):
     GROUP BY tx_hash
 
     """
-    print (query_string)
     return query_string

@@ -16,6 +16,7 @@ from lib.zksync_lite.zksync_lite import ZksyncLiteExporter
 from lib.op_bridge.op_bridge import OPBridgeExporter
 from lib.across.across import AcrossExporter
 from lib.manta_pacific.manta_pacific import MantaPacificExporter
+from lib.squid.squid import SquidExporter
 
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL, datefmt=LOG_DATE_FORMAT)
 console = logging.StreamHandler()
@@ -37,5 +38,6 @@ if __name__ == "__main__":
             "op_bridge": OPBridgeExporter().run,
             "across": AcrossExporter().run,
             "manta_pacific": MantaPacificExporter().run,
+            "squid": SquidExporter().run,
         }
     )

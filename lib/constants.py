@@ -27,8 +27,8 @@ CH_PORT = int(os.getenv("CH_PORT", "30900"))
 READ_CHUNK_SIZE = 100_000
 WRITE_CHUNK_SIZE = 10_000
 
-start_default = before_days(40)
-end_default = before_days(30)
+start_default = before_days(10)
+end_default = before_days(1)
 START_DT = parse_iso_time(os.getenv("START_DT", start_default))
 END_DT = parse_iso_time(os.getenv("END_DT", end_default))
 

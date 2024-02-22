@@ -18,6 +18,7 @@ from lib.across.across import AcrossExporter
 from lib.manta_pacific.manta_pacific import MantaPacificExporter
 from lib.squid.squid import SquidExporter
 from lib.base_bridge.base_bridge import BaseBridgeExporter
+from lib.avalanche.avalanche_bridge import AvalancheBridgeExporter
 
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL, datefmt=LOG_DATE_FORMAT)
 console = logging.StreamHandler()
@@ -41,5 +42,6 @@ if __name__ == "__main__":
             "manta_pacific": MantaPacificExporter().run,
             "squid": SquidExporter().run,
             "base_bridge": BaseBridgeExporter().run,
+            "avalanche_bridge": AvalancheBridgeExporter().run
         }
     )

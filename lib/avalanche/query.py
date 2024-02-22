@@ -1,3 +1,7 @@
+"""
+Provide functions for clickhouse query in avalanche bridge exporter
+"""
+
 from lib.constants import ERC20_TRANSFERS_TABLE, AVAX_RECEIPTS_TABLE
 from lib.avalanche.constants import (
     ETH_AVAX_BRIDGE,
@@ -6,6 +10,10 @@ from lib.avalanche.constants import (
 
 
 def build_events_query(start_dt, end_dt):
+    """
+    Read events from erc20_transfers and avax_reciepts table using avalanche protoccol addresses
+    """
+
     query = f'''
         (SELECT
             dt,

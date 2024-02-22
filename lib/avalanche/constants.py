@@ -1,3 +1,7 @@
+"""
+Provide constants to be used in avalanche bridge exporter
+"""
+
 ETH_AVAX_BRIDGE = '0x8eb8a3b98659cce290402893d0123abb75e3ab28'
 AVAX_ETH_MINTING_ADDRESS = '0xEb1bB70123B2f43419d070d7fDE5618971cc2F8f'
 

@@ -2,10 +2,9 @@
 Provide functions for clickhouse query in avalanche bridge exporter
 """
 
-from lib.constants import ERC20_TRANSFERS_TABLE, AVAX_RECEIPTS_TABLE
+from lib.constants import ERC20_TRANSFERS_TABLE
 from lib.avalanche.constants import (
-    ETH_AVAX_BRIDGE,
-    ETH_AVAX_TRANSFER_SIG
+    ETH_AVAX_BRIDGE
 )
 
 

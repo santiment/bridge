@@ -46,7 +46,6 @@ ETH_RECEIPTS_TABLE = os.getenv("ETH_RECEIPTS_TABLE", "eth_receipts")
 BRIDGE_TRANSACTIONS_TABLE = os.getenv("BRIDGE_TRANSACTIONS_TABLE", "bridge_transactions")
 ERC20_TRANSFERS_TABLE = os.getenv("ERC20_TRANSFERS_TABLE", "erc20_transfers")
 ETH_TRANSFERS_TABLE = os.getenv("ETH_TRANSFERS_TABLE", "eth_transfers")
-AVAX_RECEIPTS_TABLE = os.getenv("ETH_RECEIPTS_TABLE", "avax_receipts")
 
 ############## ADDRESSES ##############
 
